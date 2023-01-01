@@ -2,6 +2,7 @@ package org.ir.crawling;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
+import edu.uci.ics.crawler4j.parser.BinaryParseData;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.parser.ParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
@@ -49,6 +50,17 @@ public class AlphaCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
+
+        // this was needed because for some reason, the crawler was trying to crawl the css files despite the filter
+        if (url.getURL().contains(".css")) {
+            return false;
+        }
+
+        // this will parse all the urls irrespective of the response status code
+        if (referringPage.getStatusCode() < 200 || referringPage.getStatusCode() > 299) {
+            return true;
+        }
+
         return !FILTERS.matcher(href).matches()
                 && href.startsWith(alphaCrawlerPojo.getSeedUrl());
     }
@@ -65,16 +77,9 @@ public class AlphaCrawler extends WebCrawler {
             long downloadSize = page.getContentData().length;
             String contentType = page.getContentType().split(";")[0];
 
-            int numberOfOutlinks = 0;
-
             // TODO: Need to include Binary parse data as well
             ParseData parseData = page.getParseData();
-
-            if (parseData instanceof HtmlParseData) {
-                numberOfOutlinks = parseData.getOutgoingUrls().size();
-            }
-
-            System.out.printf("URL: %s | Status Code: %d%n", url, statusCode);
+            int numberOfOutlinks = parseData.getOutgoingUrls().size();
 
             FetchCrawlStat fetchCrawlStat = new FetchCrawlStat(url, statusCode);
             fetchCrawlStats.add(fetchCrawlStat);
@@ -93,6 +98,7 @@ public class AlphaCrawler extends WebCrawler {
                 UrlCrawlStat urlCrawlStat = new UrlCrawlStat(webURL.getURL(), indicator);
                 urlCrawlStats.add(urlCrawlStat);
             }
+            System.out.printf("Parsed URL: %s | Status Code: %d%n", url, statusCode);
         } catch (Exception e) {
             e.printStackTrace();
         }

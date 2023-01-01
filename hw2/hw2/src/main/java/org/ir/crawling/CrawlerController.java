@@ -63,6 +63,7 @@ public class CrawlerController {
         config.setMaxDepthOfCrawling(MAX_DEPTH);
         config.setMaxPagesToFetch(MAX_PAGE_COUNT);
         config.setPolitenessDelay(POLITENESS_DELAY_IN_MILLIS);
+        config.setIncludeBinaryContentInCrawling(true);
 
         // Instantiate the controller for this crawl.
         final var pageFetcher = new PageFetcher(config);
