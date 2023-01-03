@@ -8,6 +8,7 @@ import org.apache.http.HttpStatus;
 import org.ir.crawling.model.*;
 
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -37,14 +38,8 @@ public class AlphaCrawler extends WebCrawler {
     }
 
     /**
-     * This method receives two parameters. The first parameter is the page
-     * in which we have discovered this new url and the second parameter is
-     * the new url. You should implement this function to specify whether
+     * You should implement this function to specify whether
      * the given url should be crawled or not (based on your crawling logic).
-     * In this example, we are instructing the crawler to ignore urls that
-     * have css, js, git, ... extensions and to only accept urls that start
-     * with "<a href="https://www.latimes.com/">...</a>". In this case, we didn't need the
-     * referringPage parameter to make the decision.
      */
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
@@ -55,13 +50,17 @@ public class AlphaCrawler extends WebCrawler {
             return false;
         }
 
-        // this will parse all the urls irrespective of the response status code
-        if (referringPage.getStatusCode() < 200 || referringPage.getStatusCode() > 299) {
-            return true;
-        }
-
         return !FILTERS.matcher(href).matches()
                 && href.startsWith(alphaCrawlerPojo.getSeedUrl());
+    }
+
+    @Override
+    public void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
+        FetchCrawlStat fetchCrawlStat = new FetchCrawlStat(webUrl.getURL(), statusCode);
+        fetchCrawlStats.add(fetchCrawlStat);
+        if (statusCode != 200) {
+            System.out.println(MessageFormat.format("\nURL: {0} {1}\n", webUrl.getURL(), statusCode));
+        }
     }
 
     /**
@@ -76,18 +75,13 @@ public class AlphaCrawler extends WebCrawler {
             long downloadSize = page.getContentData().length;
             String contentType = page.getContentType().split(";")[0];
 
-            // TODO: Need to include Binary parse data as well
             ParseData parseData = page.getParseData();
             int numberOfOutlinks = parseData.getOutgoingUrls().size();
 
-            FetchCrawlStat fetchCrawlStat = new FetchCrawlStat(url, statusCode);
-            fetchCrawlStats.add(fetchCrawlStat);
 
             if (statusCode >= 200 && statusCode <= 299) {
                 VisitCrawlStat visitCrawlStat = new VisitCrawlStat(url, downloadSize, numberOfOutlinks, contentType);
                 visitCrawlStats.add(visitCrawlStat);
-            } else {
-                return;
             }
 
             URL originUrl = new URL(url);
@@ -97,7 +91,7 @@ public class AlphaCrawler extends WebCrawler {
                 UrlCrawlStat urlCrawlStat = new UrlCrawlStat(webURL.getURL(), indicator);
                 urlCrawlStats.add(urlCrawlStat);
             }
-            System.out.printf("Parsed URL: %s | Status Code: %d%n", url, statusCode);
+            System.out.println(".");
         } catch (Exception e) {
             e.printStackTrace();
         }
