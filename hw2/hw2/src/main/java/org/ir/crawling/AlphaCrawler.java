@@ -19,6 +19,8 @@ public class AlphaCrawler extends WebCrawler {
     private static List<UrlCrawlStat> urlCrawlStats;
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mp3|mp4|zip|gz|json))$");
 
+    private static FetchCrawlStat fetchCrawlStat = null;
+
     public AlphaCrawler(List<FetchCrawlStat> fetchCrawlStats, List<VisitCrawlStat> visitCrawlStats, List<UrlCrawlStat> urlCrawlStats) {
         AlphaCrawler.fetchCrawlStats = fetchCrawlStats;
         AlphaCrawler.visitCrawlStats = visitCrawlStats;
@@ -56,9 +58,9 @@ public class AlphaCrawler extends WebCrawler {
 
     @Override
     public void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
-        FetchCrawlStat fetchCrawlStat = new FetchCrawlStat(webUrl.getURL(), statusCode);
-        fetchCrawlStats.add(fetchCrawlStat);
         if (statusCode != 200) {
+            fetchCrawlStat = new FetchCrawlStat(webUrl.getURL(), statusCode);
+            fetchCrawlStats.add(fetchCrawlStat);
             System.out.println(MessageFormat.format("\nURL: {0} {1}\n", webUrl.getURL(), statusCode));
         }
     }
@@ -78,6 +80,8 @@ public class AlphaCrawler extends WebCrawler {
             ParseData parseData = page.getParseData();
             int numberOfOutlinks = parseData.getOutgoingUrls().size();
 
+            fetchCrawlStat = new FetchCrawlStat(url, statusCode);
+            fetchCrawlStats.add(fetchCrawlStat);
 
             if (statusCode >= 200 && statusCode <= 299) {
                 VisitCrawlStat visitCrawlStat = new VisitCrawlStat(url, downloadSize, numberOfOutlinks, contentType);

@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class AnalyzeStatusCode implements Analysis {
     @Override
@@ -24,7 +25,7 @@ public class AnalyzeStatusCode implements Analysis {
 
             List<CSVRecord> records = csvFormat.parse(reader).getRecords();
 
-            Map<Integer, Integer> statusCodeAnalysisMap = new HashMap<>();
+            Map<Integer, Integer> statusCodeAnalysisMap = new TreeMap<>();
             for (final CSVRecord record : records) {
                 String statusCode = record.get(StatHeader.STATUS_CODE.value);
                 int statusCodeInt = Integer.parseInt(statusCode);
