@@ -24,6 +24,14 @@ Status Codes:
 307 Temporary Redirect: 86
 404 Not Found: 20
 
+File Sizes: 
+===========
+< 1KB: 280
+1KB ~ <10KB: 265
+10KB ~ <100KB: 1,010
+100KB ~ <1MB: 18,015
+>= 1MB: 76
+
 Content Types: 
 ==============
 application/xml: 832

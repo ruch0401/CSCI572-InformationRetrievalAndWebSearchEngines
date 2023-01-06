@@ -52,7 +52,10 @@ public class AnalyzeFileSize implements Analysis {
             fileSize.setBetweenHundredAndThousandKB(getBetweenHundredAndThousandKBCount(castedRecords));
             fileSize.setMoreThanEqualToThousandKB(getMoreThanEqualToThousandKBCount(castedRecords));
 
-            return this.analyzeAndConstructDynamicOutputStringForContentTypeMetric(castedRecords);
+            // Combining two strings. Bad Idea.
+            String contentTypeOutput = this.analyzeAndConstructDynamicOutputStringForContentTypeMetric(castedRecords);
+            String fileSizeOutput = fileSize.toString();
+            return fileSizeOutput + contentTypeOutput;
         } catch (Exception e) {
             e.printStackTrace();
         }
