@@ -5,6 +5,7 @@ import csv
 from random import randint
 from pathlib import Path
 import os
+import sys
 
 import requests
 from bs4 import BeautifulSoup
@@ -37,8 +38,8 @@ stats = []
 
 
 def calculate_overlap_and_ranks():
-    file1 = open("./output/hw1.json")
-    file2 = open("./resources/Google_Result4.json")
+    file1 = open(input_json_)
+    file2 = open(input_google_)
     custom_dict = json.loads(file1.read())
     google_dict = json.loads(file2.read())
     for query in custom_dict.keys():
@@ -111,10 +112,10 @@ def get_spearman_coefficient(diff_sqrd, n):
 
 
 def write_data_to_csv():
-    csv_exists = os.path.exists("./output/hw1.csv")
+    csv_exists = os.path.exists(output_csv_)
     mode = "w" if csv_exists else "x"
 
-    with open(CSV_OP, mode) as csvfile:
+    with open(output_csv_, mode) as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["Queries", "Number of Overlapping Results", "Percentage Overlap", "Spearman Coefficient"])
         for d in data:
@@ -137,7 +138,7 @@ def write_observation_to_txt(avg_overlap, avg_spearman):
 
     text_content = f"Observation:\n{observation_text}\n\nAverage Percentage Overlap: {avg_overlap_}%\n" \
                    f"Average Spearman Coefficient: {avg_spearman}\n"
-    create_file_if_not_exists_and_write_data(TXT_OP, text_content)
+    create_file_if_not_exists_and_write_data(output_txt_, text_content)
     return avg_overlap_, avg_spearman
 
 
@@ -243,7 +244,55 @@ def calculate_metrics():
     write_observation_to_txt(round(average_percentage_overlap, 3), round(average_spearman, 3))
 
 
+def should_calculate_metrics():
+    if calculate_metrics_ == 'false':
+        print('Skipping metrics calculation. Exiting.')
+        exit(1)
+    else:
+        print('Performing metrics calculation...')
+        calculate_metrics()
+        print('Metrics calculation complete. Exiting.')
+
+
 # main method for python
 if __name__ == "__main__":
-    main()
-    calculate_metrics()
+
+    # sample arguments look like the following (Pass it manually or using intellij parameters) -
+    # --crawl_web
+    # false
+    # --search_engine
+    # DuckDuckGo
+    # --calculate_metrics
+    # true
+    # --input_json
+    # ./output/hw1.json
+    # --input_google
+    # ./others/Google_Result1.json
+    # --output_csv
+    # ./others/op1.csv
+    # --output_txt
+    # ./others/op2.txt
+
+    args = sys.argv
+    crawl_web_ = args[args.index("--crawl_web") + 1]
+    search_engine_ = args[args.index("--search_engine") + 1]
+    calculate_metrics_ = args[args.index("--calculate_metrics") + 1]
+    input_json_ = args[args.index("--input_json") + 1]
+    input_google_ = args[args.index("--input_google") + 1]
+    output_csv_ = args[args.index("--output_csv") + 1]
+    output_txt_ = args[args.index("--output_txt") + 1]
+
+    print(f"You selected the following: \nCrawl Web: {crawl_web_}\nSearch Engine: {search_engine_}\n"
+          f"Calculate Metrics: {calculate_metrics_}\nInput JSON: {input_json_}\n"
+          f"Input Google: {input_google_}\nOutput CSV: {output_csv_}\nOutput TXT: {output_txt_}\n")
+
+    if crawl_web_ == 'true':
+        if search_engine_ != 'DuckDuckGo':
+            print('Web Crawling only available for DuckDuckGo. Exiting.')
+            exit(1)
+        else:
+            print(f'Performing Web Crawling for {search_engine_}')
+            main()
+            should_calculate_metrics()
+    else:
+        should_calculate_metrics()
