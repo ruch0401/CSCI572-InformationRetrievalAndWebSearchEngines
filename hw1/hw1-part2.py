@@ -7,7 +7,7 @@ stats = []
 
 
 def calculate_overlap_and_ranks():
-    file1 = open("./resources/hw1.json")
+    file1 = open("./output/hw1.json")
     file2 = open("./resources/Google_Result4.json")
     custom_dict = json.loads(file1.read())
     google_dict = json.loads(file2.read())
@@ -81,10 +81,10 @@ def get_spearman_coefficient(diff_sqrd, n):
 
 
 def write_data_to_csv():
-    csv_exists = os.path.exists("./resources/hw1.csv")
+    csv_exists = os.path.exists("./output/hw1.csv")
     mode = "w" if csv_exists else "x"
 
-    with open("./resources/hw1.csv", mode) as csvfile:
+    with open("./output/hw1.csv", mode) as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["Queries", "Number of Overlapping Results", "Percentage Overlap", "Spearman Coefficient"])
         for d in data:
@@ -93,9 +93,9 @@ def write_data_to_csv():
 
 
 def write_observation_to_txt(avg_overlap, avg_spearman):
-    txt_exists = os.path.exists("./resources/hw1.txt")
+    txt_exists = os.path.exists("./output/hw1.txt")
     mode = "w" if txt_exists else "x"
-    file = open("./resources/hw1.txt", mode)
+    file = open("./output/hw1.txt", mode)
 
     avg_overlap_ = avg_overlap * 10
     observation_text = f"The Spearman Rank Correlation Coefficient is a measure of whether two continuous or discrete " \
