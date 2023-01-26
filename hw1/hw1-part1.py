@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import time
 from random import randint
@@ -111,7 +112,10 @@ def main():
 
 
 def write_json_data_to_new_file(response_json):
+    txt_exists = os.path.exists("./resources/hw1.json")
+    mode = "w" if txt_exists else "x"
     file_to_write = open("resources/hw1.json", "x")
+
     file_to_write.write(response_json)
     file_to_write.close()
 
