@@ -21,7 +21,7 @@ class SearchEngine:
     @staticmethod
     def search(query, sleep=True):
         if sleep:  # Prevents loading too many pages too soon
-            time.sleep(randint(10, 100))
+            time.sleep(randint(10, 25))
             temp_url = '+'.join(query.split())  # for adding + between words for the query
             url = SEARCH_URL + temp_url
             soup = BeautifulSoup(requests.get(url, headers=USER_AGENT).text, "html.parser")
