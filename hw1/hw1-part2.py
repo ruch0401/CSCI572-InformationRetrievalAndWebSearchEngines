@@ -1,4 +1,5 @@
 import json
+import csv
 
 # for every query, dict [{"query": "abc", "rank_google": 1, "rank_ddg": 4, "overlap": 3}]
 stats = []
@@ -31,35 +32,58 @@ def calculate_overlap_and_ranks():
         }
 
         stats.append(stat)
-        return stat["overlap"]
 
 
+# noinspection PyGlobalUndefined
 def calculate_spearman_coefficient():
-    for stat in stats:
+    global calculated_spearman_coefficient, temp
+    data = []
+    for (index, stat) in enumerate(stats):
+        temp = {}
         rank_google = stat["rank_google"]
         rank_ddg = stat["rank_ddg"]
         n = stat["overlap"]
 
+        calculated_spearman_coefficient = 0
         if n == 0:
-            return 0
-        if n == 1:
+            calculated_spearman_coefficient = 0
+        elif n == 1:
             if rank_google[0] != rank_ddg[0]:
-                return 0
+                calculated_spearman_coefficient = 0
             elif rank_google[0] == rank_ddg[0]:
-                return 1
+                calculated_spearman_coefficient = 1
         else:
             diff_sqrd = 0
             for i in range(0, len(rank_google)):
                 diff = rank_google[i] - rank_ddg[i]
                 diff_sqrd += pow(diff, 2)
-            return get_spearman_coefficient(diff_sqrd, n)
+            calculated_spearman_coefficient = get_spearman_coefficient(diff_sqrd, n)
+
+        temp = {
+            "queries": f"Query {index + 1}",
+            "overlapping_results": n,
+            "percentage_overlap": (n / 10) * 100.0,
+            "spearman_coefficient": round(calculated_spearman_coefficient, 2)
+        }
+        data.append(temp)
+
+    return calculated_spearman_coefficient, data
 
 
 def get_spearman_coefficient(diff_sqrd, n):
-    return 1 - ((6 * diff_sqrd) / n * (pow(n, 2) - 1))
+    return 1 - ((6 * diff_sqrd) / (n * (pow(n, 2) - 1)))
+
+
+def write_data_to_csv():
+    with open("./resources/hw1.csv", 'w', ) as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["Queries", "Number of Overlapping Results", "Percentage Overlap", "Spearman Coefficient"])
+        for d in data:
+            writer.writerow(
+                [d["queries"], d["overlapping_results"], d["percentage_overlap"], d["spearman_coefficient"]])
 
 
 if __name__ == "__main__":
-    overlap = calculate_overlap_and_ranks()
-    spearman_coefficient = calculate_spearman_coefficient()
-    print(f"Overlap: {overlap}, Spearman Coefficient: {spearman_coefficient}")
+    calculate_overlap_and_ranks()
+    spearman_coefficient, data = calculate_spearman_coefficient()
+    write_data_to_csv()
