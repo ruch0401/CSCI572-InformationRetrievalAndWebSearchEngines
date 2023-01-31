@@ -7,7 +7,8 @@ import requests
 from bs4 import BeautifulSoup
 
 USER_AGENT = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'}
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                  'Chrome/61.0.3163.100 Safari/537.36'}
 SEARCH_URL = "https://www.duckduckgo.com/html/?q="
 SEARCH_SELECTOR = ["a"]
 SEARCH_ATTRS = {"class": "result__a"}
@@ -86,8 +87,8 @@ class SearchEngine:
     @staticmethod
     def read_file(filename):
         with open(filename) as file:
-            list = [line.rstrip() for line in file]
-            return list
+            custom_list = [line.rstrip() for line in file]
+            return custom_list
 
 
 def main():
@@ -96,11 +97,14 @@ def main():
     print(f"{len(custom_list)} queries parsed...")
 
     response_json = {}
+    count = 0
     for item in custom_list:
         print(item)
         result = SearchEngine.search(item)
         response_json[item] = result
-        # print(json.dumps(response_json))
+        count += 1
+        if count > 1:
+            break
 
     print(json.dumps(response_json))
     write_json_data_to_new_file(json.dumps(response_json))
