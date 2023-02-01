@@ -107,13 +107,11 @@ def main():
 
 
 def write_json_data_to_new_file(response_json):
-    file_to_write = open("./resources/output.json", "x")
+    file_to_write = open("resources/hw1.json", "x")
     file_to_write.write(response_json)
     file_to_write.close()
 
 
 # main method for python
 if __name__ == "__main__":
-    temp = open("./resources/output.json")
-    print(temp)
     main()
