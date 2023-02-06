@@ -37,7 +37,9 @@ def calculate_overlap_and_ranks():
 # noinspection PyGlobalUndefined
 def calculate_spearman_coefficient():
     global calculated_spearman_coefficient, temp
-    data = []
+    custom_data = []
+    sum_overlap = 0
+    sum_spearman = 0
     for (index, stat) in enumerate(stats):
         temp = {}
         rank_google = stat["rank_google"]
@@ -65,9 +67,12 @@ def calculate_spearman_coefficient():
             "percentage_overlap": (n / 10) * 100.0,
             "spearman_coefficient": round(calculated_spearman_coefficient, 2)
         }
-        data.append(temp)
+        sum_overlap += n
+        sum_spearman += round(calculated_spearman_coefficient, 2)
 
-    return calculated_spearman_coefficient, data
+        custom_data.append(temp)
+
+    return calculated_spearman_coefficient, custom_data, sum_overlap / 100.0, sum_spearman / 100.0
 
 
 def get_spearman_coefficient(diff_sqrd, n):
@@ -83,7 +88,16 @@ def write_data_to_csv():
                 [d["queries"], d["overlapping_results"], d["percentage_overlap"], d["spearman_coefficient"]])
 
 
+def write_observation_to_txt(avg_overlap, avg_spearman):
+    file = open("./resources/hw1.txt", "x")
+    observation_text = ""
+    file.write(f"Observation: {observation_text}\nAverage Overlap: {avg_overlap * 10}\nAverage Spearman Coefficient: {avg_spearman}")
+    return avg_overlap * 10, avg_spearman, 2
+
+
 if __name__ == "__main__":
     calculate_overlap_and_ranks()
-    spearman_coefficient, data = calculate_spearman_coefficient()
+    spearman_coefficient, data, average_overlap, average_spearman = calculate_spearman_coefficient()
     write_data_to_csv()
+    write_observation_to_txt(round(average_overlap, 3), round(average_spearman, 3))
+
