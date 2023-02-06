@@ -1,5 +1,6 @@
 import json
 import csv
+import os
 
 # for every query, dict [{"query": "abc", "rank_google": 1, "rank_ddg": 4, "overlap": 3}]
 stats = []
@@ -80,7 +81,10 @@ def get_spearman_coefficient(diff_sqrd, n):
 
 
 def write_data_to_csv():
-    with open("./resources/hw1.csv", 'w', ) as csvfile:
+    csv_exists = os.path.exists("./resources/hw1.csv")
+    mode = "w" if csv_exists else "x"
+
+    with open("./resources/hw1.csv", mode) as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["Queries", "Number of Overlapping Results", "Percentage Overlap", "Spearman Coefficient"])
         for d in data:
@@ -89,15 +93,30 @@ def write_data_to_csv():
 
 
 def write_observation_to_txt(avg_overlap, avg_spearman):
-    file = open("./resources/hw1.txt", "x")
-    observation_text = ""
-    file.write(f"Observation: {observation_text}\nAverage Overlap: {avg_overlap * 10}\nAverage Spearman Coefficient: {avg_spearman}")
-    return avg_overlap * 10, avg_spearman, 2
+    txt_exists = os.path.exists("./resources/hw1.txt")
+    mode = "w" if txt_exists else "x"
+    file = open("./resources/hw1.txt", mode)
+
+    avg_overlap_ = avg_overlap * 10
+    observation_text = f"The Spearman Rank Correlation Coefficient is a measure of whether two continuous or discrete " \
+                       "variables are positively related or negatively related. The assignment calls for making a " \
+                       "comparison between DuckDuckGo and Google search engines (considering Google as a baseline). " \
+                       f"The values of average percentage overlap of {avg_overlap_}% means that " \
+                       f"there are almost {abs(round(avg_overlap))} (out of the top 10) " \
+                       f"same queries are returned by both DuckDuckGo " \
+                       f"and Google.\nOn the other hand, the average spearman rank correlation coefficient of " \
+                       f"{avg_spearman} is negative which means that DuckDuckGo ranks important links and " \
+                       f"useful links lower when compared to the ranks provided by google for the same results. This is" \
+                       f" the reason that DuckDuckGo performs worse than Google."
+
+    file.write(f"Observation:\n{observation_text}\n\nAverage Percentage Overlap: {avg_overlap_}%\n"
+               f"Average Spearman Coefficient: {avg_spearman}\n")
+    return avg_overlap_, avg_spearman
 
 
 if __name__ == "__main__":
     calculate_overlap_and_ranks()
-    spearman_coefficient, data, average_overlap, average_spearman = calculate_spearman_coefficient()
+    spearman_coefficient, data, average_percentage_overlap, average_spearman = calculate_spearman_coefficient()
     write_data_to_csv()
-    write_observation_to_txt(round(average_overlap, 3), round(average_spearman, 3))
+    write_observation_to_txt(round(average_percentage_overlap, 3), round(average_spearman, 3))
 
