@@ -1,6 +1,0 @@
-Observation:
-The Spearman Rank Correlation Coefficient is a measure of whether two continuous or discrete variables are positively related or negatively related. The assignment calls for making a comparison between DuckDuckGo and Google search engines (considering Google as a baseline). The values of average percentage overlap of 19.9% means that there are almost 2 (out of the top 10) same queries are returned by both DuckDuckGo and Google.
-On the other hand, the average spearman rank correlation coefficient of -7.896 is negative which means that DuckDuckGo ranks important links and useful links lower when compared to the ranks provided by google for the same results. This is the reason that DuckDuckGo performs worse than Google.
-
-Average Percentage Overlap: 19.9%
-Average Spearman Coefficient: -7.896
