@@ -3,19 +3,10 @@ import os
 import re
 import time
 from random import randint
-
+from pathlib import Path
+from common import *
 import requests
 from bs4 import BeautifulSoup
-
-USER_AGENT = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                  'Chrome/61.0.3163.100 Safari/537.36'}
-SEARCH_URL = "https://www.duckduckgo.com/html/?q="
-SEARCH_SELECTOR = ["a"]
-SEARCH_ATTRS = {"class": "result__a"}
-FILENAME = "./resources/100QueriesSet4.txt"
-
-pattern2 = "http(s)?\://(www.)?"
 
 
 class SearchEngine:
@@ -78,7 +69,7 @@ class SearchEngine:
 
     @staticmethod
     def get_actual_url_index_ranges(url):
-        match = re.search(pattern2, url)
+        match = re.search(FILTER_PATTERN, url)
         start_index = 0
         if match:
             start_index = match.end()
@@ -104,20 +95,11 @@ def main():
         result = SearchEngine.search(item)
         response_json[item] = result
         count += 1
-        if count > 1:
+        if count > 100:
             break
 
     print(json.dumps(response_json))
-    write_json_data_to_new_file(json.dumps(response_json))
-
-
-def write_json_data_to_new_file(response_json):
-    txt_exists = os.path.exists("./output/hw1.json")
-    mode = "w" if txt_exists else "x"
-    file_to_write = open("./output/hw1.json", mode)
-
-    file_to_write.write(response_json)
-    file_to_write.close()
+    create_file_if_not_exists_and_write_data(JSON_OP, json.dumps(response_json))
 
 
 # main method for python

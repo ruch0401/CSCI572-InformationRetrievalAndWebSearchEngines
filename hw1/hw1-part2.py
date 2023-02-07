@@ -1,6 +1,7 @@
 import json
 import csv
 import os
+from common import *
 
 # for every query, dict [{"query": "abc", "rank_google": 1, "rank_ddg": 4, "overlap": 3}]
 stats = []
@@ -93,10 +94,6 @@ def write_data_to_csv():
 
 
 def write_observation_to_txt(avg_overlap, avg_spearman):
-    txt_exists = os.path.exists("./output/hw1.txt")
-    mode = "w" if txt_exists else "x"
-    file = open("./output/hw1.txt", mode)
-
     avg_overlap_ = avg_overlap * 10
     observation_text = f"The Spearman Rank Correlation Coefficient is a measure of whether two continuous or discrete " \
                        "variables are positively related or negatively related. The assignment calls for making a " \
@@ -109,8 +106,9 @@ def write_observation_to_txt(avg_overlap, avg_spearman):
                        f"useful links lower when compared to the ranks provided by google for the same results. This is" \
                        f" the reason that DuckDuckGo performs worse than Google."
 
-    file.write(f"Observation:\n{observation_text}\n\nAverage Percentage Overlap: {avg_overlap_}%\n"
-               f"Average Spearman Coefficient: {avg_spearman}\n")
+    text_content = f"Observation:\n{observation_text}\n\nAverage Percentage Overlap: {avg_overlap_}%\n"\
+                   f"Average Spearman Coefficient: {avg_spearman}\n"
+    create_file_if_not_exists_and_write_data(TXT_OP, text_content)
     return avg_overlap_, avg_spearman
 
 
