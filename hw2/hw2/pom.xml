@@ -20,6 +20,11 @@
             <artifactId>crawler4j</artifactId>
             <version>4.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.9.0</version>
+        </dependency>
     </dependencies>
 
 </project>

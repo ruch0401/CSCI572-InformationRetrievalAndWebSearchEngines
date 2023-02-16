@@ -4,13 +4,16 @@ import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import org.ir.model.AlphaCrawlerPojo;
 
 import java.util.Set;
 import java.util.regex.Pattern;
 
 public class AlphaCrawler extends WebCrawler {
 
-    private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|png|mp3|mp4|zip|gz))$");
+    final AlphaCrawlerPojo alphaCrawlerPojo = new AlphaCrawlerPojo(Controller.SEED_URL);
+
+    private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|mp3|mp4|zip|gz))$");
 
     /**
      * This method receives two parameters. The first parameter is the page
@@ -19,14 +22,14 @@ public class AlphaCrawler extends WebCrawler {
      * the given url should be crawled or not (based on your crawling logic).
      * In this example, we are instructing the crawler to ignore urls that
      * have css, js, git, ... extensions and to only accept urls that start
-     * with "<a href="https://www.ics.uci.edu/">...</a>". In this case, we didn't need the
+     * with "<a href="https://www.latimes.com/">...</a>". In this case, we didn't need the
      * referringPage parameter to make the decision.
      */
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
         return !FILTERS.matcher(href).matches()
-                && href.startsWith("https://www.ics.uci.edu/");
+                && href.startsWith(alphaCrawlerPojo.getSeedUrl());
     }
 
     /**
@@ -40,13 +43,10 @@ public class AlphaCrawler extends WebCrawler {
 
         if (page.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-            String text = htmlParseData.getText();
-            String html = htmlParseData.getHtml();
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
-
-            System.out.println("Text length: " + text.length());
-            System.out.println("Html length: " + html.length());
-            System.out.println("Number of outgoing links: " + links.size());
+            links.forEach(link -> {
+                logger.info("This is anchor message: " + link.getURL());
+            });
         }
     }
 }
