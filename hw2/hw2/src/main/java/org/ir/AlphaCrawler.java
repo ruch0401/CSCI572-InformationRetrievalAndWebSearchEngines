@@ -2,18 +2,26 @@ package org.ir;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
-import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import org.ir.controller.CrawlerController;
 import org.ir.model.AlphaCrawlerPojo;
+import org.ir.model.FetchCrawlStat;
 
-import java.util.Set;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class AlphaCrawler extends WebCrawler {
-
-    final AlphaCrawlerPojo alphaCrawlerPojo = new AlphaCrawlerPojo(Controller.SEED_URL);
-
+    final AlphaCrawlerPojo alphaCrawlerPojo = new AlphaCrawlerPojo(CrawlerController.SEED_URL);
+    private static List<FetchCrawlStat> urlStatusCodeList;
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|mp3|mp4|zip|gz))$");
+
+    public AlphaCrawler(List<FetchCrawlStat> urlStatusCodeList) {
+        AlphaCrawler.urlStatusCodeList = urlStatusCodeList;
+    }
+
+    public static List<FetchCrawlStat> getFetchStats() {
+        return urlStatusCodeList;
+    }
 
     /**
      * This method receives two parameters. The first parameter is the page
@@ -39,14 +47,9 @@ public class AlphaCrawler extends WebCrawler {
     @Override
     public void visit(Page page) {
         String url = page.getWebURL().getURL();
-        System.out.println("URL: " + url);
-
-        if (page.getParseData() instanceof HtmlParseData) {
-            HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-            Set<WebURL> links = htmlParseData.getOutgoingUrls();
-            links.forEach(link -> {
-                logger.info("This is anchor message: " + link.getURL());
-            });
-        }
+        int statusCode = page.getStatusCode();
+        System.out.printf("URL: %s | Status Code: %d%n", url, statusCode);
+        FetchCrawlStat fetchCrawlStat = new FetchCrawlStat(url, statusCode);
+        urlStatusCodeList.add(fetchCrawlStat);
     }
 }
