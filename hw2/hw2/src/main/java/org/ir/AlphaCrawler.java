@@ -2,25 +2,38 @@ package org.ir;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
+import edu.uci.ics.crawler4j.parser.BinaryParseData;
+import edu.uci.ics.crawler4j.parser.HtmlParseData;
+import edu.uci.ics.crawler4j.parser.ParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.Header;
 import org.ir.controller.CrawlerController;
 import org.ir.model.AlphaCrawlerPojo;
 import org.ir.model.FetchCrawlStat;
+import org.ir.model.VisitCrawlStat;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class AlphaCrawler extends WebCrawler {
     final AlphaCrawlerPojo alphaCrawlerPojo = new AlphaCrawlerPojo(CrawlerController.SEED_URL);
-    private static List<FetchCrawlStat> urlStatusCodeList;
-    private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|mp3|mp4|zip|gz))$");
+    private static List<FetchCrawlStat> fetchCrawlStats;
+    private static List<VisitCrawlStat> visitCrawlStats;
+    private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mp3|mp4|zip|gz|json))$");
 
-    public AlphaCrawler(List<FetchCrawlStat> urlStatusCodeList) {
-        AlphaCrawler.urlStatusCodeList = urlStatusCodeList;
+    public AlphaCrawler(List<FetchCrawlStat> fetchCrawlStats, List<VisitCrawlStat> visitCrawlStats) {
+        AlphaCrawler.fetchCrawlStats = fetchCrawlStats;
+        AlphaCrawler.visitCrawlStats = visitCrawlStats;
     }
 
     public static List<FetchCrawlStat> getFetchStats() {
-        return urlStatusCodeList;
+        return fetchCrawlStats;
+    }
+
+    public static List<VisitCrawlStat> getVisitStats() {
+        return visitCrawlStats;
     }
 
     /**
@@ -48,8 +61,25 @@ public class AlphaCrawler extends WebCrawler {
     public void visit(Page page) {
         String url = page.getWebURL().getURL();
         int statusCode = page.getStatusCode();
+        long downloadSize = page.getContentData().length;
+        String contentType = page.getContentType();
+
+        int numberOfOutlinks = 0;
+        ParseData parseData = page.getParseData();
+        if (parseData instanceof HtmlParseData) {
+            numberOfOutlinks = parseData.getOutgoingUrls().size();
+        }
+
         System.out.printf("URL: %s | Status Code: %d%n", url, statusCode);
+
         FetchCrawlStat fetchCrawlStat = new FetchCrawlStat(url, statusCode);
-        urlStatusCodeList.add(fetchCrawlStat);
+        fetchCrawlStats.add(fetchCrawlStat);
+
+        if (statusCode >= 200 && statusCode <= 299) {
+            VisitCrawlStat visitCrawlStat = new VisitCrawlStat(url, downloadSize, numberOfOutlinks, contentType);
+            visitCrawlStats.add(visitCrawlStat);
+        } else {
+            return;
+        }
     }
 }

@@ -10,6 +10,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.ir.AlphaCrawler;
 import org.ir.model.FetchCrawlStat;
 import org.ir.model.StatHeader;
+import org.ir.model.VisitCrawlStat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,16 +76,18 @@ public class CrawlerController {
         // which are found in these pages
         controller.addSeed(SEED_URL);
 
-        List<FetchCrawlStat> urlStatusCodeList = new ArrayList<>();
+        List<FetchCrawlStat> fetchCrawlStats = new ArrayList<>();
+        List<VisitCrawlStat> visitCrawlStats = new ArrayList<>();
 
         // The factory which creates instances of crawlers.
-        CrawlController.WebCrawlerFactory<AlphaCrawler> factory = () -> new AlphaCrawler(urlStatusCodeList);
+        CrawlController.WebCrawlerFactory<AlphaCrawler> factory = () -> new AlphaCrawler(fetchCrawlStats, visitCrawlStats);
 
         // Start the crawl. This is a blocking operation, meaning that your code
         // will reach the line after this only when crawling is finished.
         controller.start(factory, NUMBER_OF_CRAWLERS);
 
         writeFetchStatsToCsv();
+        writeVisitStatsToCsv();
     }
 
     private static void writeFetchStatsToCsv() throws IOException {
@@ -98,14 +101,14 @@ public class CrawlerController {
         csvPrinter.flush();
     }
 
-//    private static void writeVisitStatsToCsv() throws IOException {
-//        final var visitStats = AlphaCrawler.getVisitStats();
-//        BufferedWriter bufferedWriter = new BufferedWriter(Files.newBufferedWriter(VISIT_LATIMES_CSV_OP));
-//        CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.header, StatHeader.SIZE_OF_DOWNLOADED_PAGE.header, StatHeader.NUMBER_OF_OUTLINKS.header, StatHeader.CONTENT_TYPE.header);
-//        CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
-//        for (FetchCrawlStat urlStatusCode : urlStatusCodeList) {
-//            csvPrinter.printRecord(urlStatusCode.getUrl(), urlStatusCode.getStatusCode());
-//        }
-//        csvPrinter.flush();
-//    }
+    private static void writeVisitStatsToCsv() throws IOException {
+        final var visitStats = AlphaCrawler.getVisitStats();
+        BufferedWriter bufferedWriter = new BufferedWriter(Files.newBufferedWriter(VISIT_LATIMES_CSV_OP));
+        CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.header, StatHeader.SIZE_OF_DOWNLOADED_PAGE.header, StatHeader.NUMBER_OF_OUTLINKS.header, StatHeader.CONTENT_TYPE.header);
+        CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
+        for (VisitCrawlStat visitStat : visitStats) {
+            csvPrinter.printRecord(visitStat.getUrl(), visitStat.getDownloadedSize(), visitStat.getNumberOfOutlinks(), visitStat.getContentType());
+        }
+        csvPrinter.flush();
+    }
 }
