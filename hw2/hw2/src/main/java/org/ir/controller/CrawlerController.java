@@ -10,6 +10,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.ir.AlphaCrawler;
 import org.ir.model.FetchCrawlStat;
 import org.ir.model.StatHeader;
+import org.ir.model.UrlCrawlStat;
 import org.ir.model.VisitCrawlStat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,9 +79,10 @@ public class CrawlerController {
 
         List<FetchCrawlStat> fetchCrawlStats = new ArrayList<>();
         List<VisitCrawlStat> visitCrawlStats = new ArrayList<>();
+        List<UrlCrawlStat> urlCrawlStats = new ArrayList<>();
 
         // The factory which creates instances of crawlers.
-        CrawlController.WebCrawlerFactory<AlphaCrawler> factory = () -> new AlphaCrawler(fetchCrawlStats, visitCrawlStats);
+        CrawlController.WebCrawlerFactory<AlphaCrawler> factory = () -> new AlphaCrawler(fetchCrawlStats, visitCrawlStats, urlCrawlStats);
 
         // Start the crawl. This is a blocking operation, meaning that your code
         // will reach the line after this only when crawling is finished.
@@ -88,6 +90,7 @@ public class CrawlerController {
 
         writeFetchStatsToCsv();
         writeVisitStatsToCsv();
+        writeUrlStatsToCsv();
     }
 
     private static void writeFetchStatsToCsv() throws IOException {
@@ -108,6 +111,17 @@ public class CrawlerController {
         CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
         for (VisitCrawlStat visitStat : visitStats) {
             csvPrinter.printRecord(visitStat.getUrl(), visitStat.getDownloadedSize(), visitStat.getNumberOfOutlinks(), visitStat.getContentType());
+        }
+        csvPrinter.flush();
+    }
+
+    private static void writeUrlStatsToCsv() throws IOException {
+        final var urlStats = AlphaCrawler.getUrlStats();
+        BufferedWriter bufferedWriter = new BufferedWriter(Files.newBufferedWriter(URLS_LATIMES_CSV_OP));
+        CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.header, StatHeader.INDICATOR.header);
+        CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
+        for (UrlCrawlStat urlStat : urlStats) {
+            csvPrinter.printRecord(urlStat.getUrl(), urlStat.getSameDomainIndicator());
         }
         csvPrinter.flush();
     }

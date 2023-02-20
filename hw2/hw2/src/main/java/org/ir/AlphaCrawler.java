@@ -2,18 +2,16 @@ package org.ir;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
-import edu.uci.ics.crawler4j.parser.BinaryParseData;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.parser.ParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
-import org.apache.commons.io.FileUtils;
-import org.apache.http.Header;
 import org.ir.controller.CrawlerController;
 import org.ir.model.AlphaCrawlerPojo;
 import org.ir.model.FetchCrawlStat;
+import org.ir.model.UrlCrawlStat;
 import org.ir.model.VisitCrawlStat;
 
-import java.util.Arrays;
+import java.net.URL;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -21,11 +19,13 @@ public class AlphaCrawler extends WebCrawler {
     final AlphaCrawlerPojo alphaCrawlerPojo = new AlphaCrawlerPojo(CrawlerController.SEED_URL);
     private static List<FetchCrawlStat> fetchCrawlStats;
     private static List<VisitCrawlStat> visitCrawlStats;
+    private static List<UrlCrawlStat> urlCrawlStats;
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mp3|mp4|zip|gz|json))$");
 
-    public AlphaCrawler(List<FetchCrawlStat> fetchCrawlStats, List<VisitCrawlStat> visitCrawlStats) {
+    public AlphaCrawler(List<FetchCrawlStat> fetchCrawlStats, List<VisitCrawlStat> visitCrawlStats, List<UrlCrawlStat> urlCrawlStats) {
         AlphaCrawler.fetchCrawlStats = fetchCrawlStats;
         AlphaCrawler.visitCrawlStats = visitCrawlStats;
+        AlphaCrawler.urlCrawlStats = urlCrawlStats;
     }
 
     public static List<FetchCrawlStat> getFetchStats() {
@@ -34,6 +34,10 @@ public class AlphaCrawler extends WebCrawler {
 
     public static List<VisitCrawlStat> getVisitStats() {
         return visitCrawlStats;
+    }
+
+    public static List<UrlCrawlStat> getUrlStats() {
+        return urlCrawlStats;
     }
 
     /**
@@ -59,27 +63,39 @@ public class AlphaCrawler extends WebCrawler {
      */
     @Override
     public void visit(Page page) {
-        String url = page.getWebURL().getURL();
-        int statusCode = page.getStatusCode();
-        long downloadSize = page.getContentData().length;
-        String contentType = page.getContentType();
+        try {
+            String url = page.getWebURL().getURL();
+            int statusCode = page.getStatusCode();
+            long downloadSize = page.getContentData().length;
+            String contentType = page.getContentType();
 
-        int numberOfOutlinks = 0;
-        ParseData parseData = page.getParseData();
-        if (parseData instanceof HtmlParseData) {
-            numberOfOutlinks = parseData.getOutgoingUrls().size();
-        }
+            int numberOfOutlinks = 0;
+            ParseData parseData = page.getParseData();
+            if (parseData instanceof HtmlParseData) {
+                numberOfOutlinks = parseData.getOutgoingUrls().size();
+            }
 
-        System.out.printf("URL: %s | Status Code: %d%n", url, statusCode);
+            System.out.printf("URL: %s | Status Code: %d%n", url, statusCode);
 
-        FetchCrawlStat fetchCrawlStat = new FetchCrawlStat(url, statusCode);
-        fetchCrawlStats.add(fetchCrawlStat);
+            FetchCrawlStat fetchCrawlStat = new FetchCrawlStat(url, statusCode);
+            fetchCrawlStats.add(fetchCrawlStat);
 
-        if (statusCode >= 200 && statusCode <= 299) {
-            VisitCrawlStat visitCrawlStat = new VisitCrawlStat(url, downloadSize, numberOfOutlinks, contentType);
-            visitCrawlStats.add(visitCrawlStat);
-        } else {
-            return;
+            if (statusCode >= 200 && statusCode <= 299) {
+                VisitCrawlStat visitCrawlStat = new VisitCrawlStat(url, downloadSize, numberOfOutlinks, contentType);
+                visitCrawlStats.add(visitCrawlStat);
+            } else {
+                return;
+            }
+
+            URL originUrl = new URL(url);
+            for (WebURL webURL : parseData.getOutgoingUrls()) {
+                URL outlinkUrl = new URL(webURL.getURL());
+                String indicator = originUrl.getHost().equals(outlinkUrl.getHost()) ? "OK" : "N_OK";
+                UrlCrawlStat urlCrawlStat = new UrlCrawlStat(webURL.getURL(), indicator);
+                urlCrawlStats.add(urlCrawlStat);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

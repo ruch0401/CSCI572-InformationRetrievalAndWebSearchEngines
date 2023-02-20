@@ -1,24 +1,15 @@
 package org.ir.model;
 
-public class VisitCrawlStat {
-    private String url;
+public class VisitCrawlStat extends CrawlStat {
     private long downloadedSize;
     private int numberOfOutlinks;
     private String contentType;
 
-    public VisitCrawlStat(String url, long downloadedSize, int numberOfOutlinks, String contentType) {
-        this.url = url;
+    public VisitCrawlStat(final String url, final long downloadedSize, final int numberOfOutlinks, final String contentType) {
+        super(url);
         this.downloadedSize = downloadedSize;
         this.numberOfOutlinks = numberOfOutlinks;
         this.contentType = contentType;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public long getDownloadedSize() {
