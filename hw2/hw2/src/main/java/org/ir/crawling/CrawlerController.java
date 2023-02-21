@@ -1,4 +1,4 @@
-package org.ir.controller;
+package org.ir.crawling;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -7,11 +7,10 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import org.ir.AlphaCrawler;
-import org.ir.model.FetchCrawlStat;
-import org.ir.model.StatHeader;
-import org.ir.model.UrlCrawlStat;
-import org.ir.model.VisitCrawlStat;
+import org.ir.crawling.model.FetchCrawlStat;
+import org.ir.crawling.model.StatHeader;
+import org.ir.crawling.model.UrlCrawlStat;
+import org.ir.crawling.model.VisitCrawlStat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +24,7 @@ import java.util.List;
 public class CrawlerController {
     private static final String ROOT = "../data/crawl/root";
     public static final String OUTPUT_DIR = "output";
-    private static final int NUMBER_OF_CRAWLERS = 7;
+    public static final int NUMBER_OF_CRAWLERS = 7;
     public static final String SEED_URL = "https://www.latimes.com/";
     public static final int MAX_DEPTH = 16;
     public static final int MAX_PAGE_COUNT = 3;

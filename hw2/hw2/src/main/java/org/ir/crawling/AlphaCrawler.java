@@ -1,15 +1,14 @@
-package org.ir;
+package org.ir.crawling;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.parser.ParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
-import org.ir.controller.CrawlerController;
-import org.ir.model.AlphaCrawlerPojo;
-import org.ir.model.FetchCrawlStat;
-import org.ir.model.UrlCrawlStat;
-import org.ir.model.VisitCrawlStat;
+import org.ir.crawling.model.AlphaCrawlerPojo;
+import org.ir.crawling.model.FetchCrawlStat;
+import org.ir.crawling.model.UrlCrawlStat;
+import org.ir.crawling.model.VisitCrawlStat;
 
 import java.net.URL;
 import java.util.List;

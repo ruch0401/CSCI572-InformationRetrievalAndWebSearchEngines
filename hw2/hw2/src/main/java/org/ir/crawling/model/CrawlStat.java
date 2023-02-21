@@ -1,4 +1,4 @@
-package org.ir.model;
+package org.ir.crawling.model;
 
 public class CrawlStat {
     private String url;

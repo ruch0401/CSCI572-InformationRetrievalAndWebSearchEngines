@@ -1,0 +1,11 @@
+Name: Ruchit Bhardwaj
+USC ID: 1111417799
+News site crawled: latimes.com
+Number of threads: 7
+
+Fetch Statistics
+================
+# fetches attempted: 3
+# fetches succeeded: 3
+# fetches failed or aborted: 0
+

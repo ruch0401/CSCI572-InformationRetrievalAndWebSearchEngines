@@ -1,4 +1,4 @@
-package org.ir.model;
+package org.ir.crawling.model;
 
 public class UrlCrawlStat extends CrawlStat {
     private String sameDomainIndicator;
