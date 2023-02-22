@@ -8,16 +8,18 @@ import java.nio.file.Path;
 public class CollateAnalysis {
     private static final Path REPORT = Path.of(CrawlerController.OUTPUT_DIR, "CrawlReport_latimes.txt");
     private static final Path FETCH_CSV = Path.of(CrawlerController.OUTPUT_DIR, "fetch_latimes.csv");
+    private static final Path URLS_CSV = Path.of(CrawlerController.OUTPUT_DIR, "urls_latimes.csv");
     public static void main(String[] args) {
 
         performInitialCleanUpAndCreateNewReportFile();
 
         AnalyzeStatic analyzeStatic = new AnalyzeStatic();
         AnalyzeFetch analyzeFetch = new AnalyzeFetch();
+        AnalyzeOutgoingUrls analyzeOutgoingUrls = new AnalyzeOutgoingUrls();
 
-        analyzeStatic.analyze(FETCH_CSV, REPORT);
+        analyzeStatic.analyze(null, REPORT);
         analyzeFetch.analyze(FETCH_CSV, REPORT);
-
+        analyzeOutgoingUrls.analyze(URLS_CSV, REPORT);
 
     }
 

@@ -9,3 +9,10 @@ Fetch Statistics
 # fetches succeeded: 3
 # fetches failed or aborted: 0
 
+Outgoing URLs
+================
+Total URLs extracted: 665
+# unique URLs extracted: 665
+# unique URLs within News Site: : 352
+# unique URLs outside News Site:: 313
+

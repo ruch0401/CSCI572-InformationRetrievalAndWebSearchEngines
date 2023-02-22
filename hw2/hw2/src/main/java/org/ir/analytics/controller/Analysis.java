@@ -6,7 +6,7 @@ import java.nio.file.StandardOpenOption;
 
 public interface Analysis {
 
-    void analyze(Path filepath, Path outputpath);
+    void analyze(Path filepath, Path outputPath);
 
     default void outputAnalysisToFile(Path filepath, String data) {
         try {

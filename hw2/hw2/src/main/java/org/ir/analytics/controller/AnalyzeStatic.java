@@ -1,6 +1,5 @@
 package org.ir.analytics.controller;
 
-import org.apache.commons.io.FileUtils;
 import org.ir.analytics.model.Static;
 import org.ir.crawling.CrawlerController;
 

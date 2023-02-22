@@ -5,10 +5,7 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.parser.ParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
-import org.ir.crawling.model.AlphaCrawlerPojo;
-import org.ir.crawling.model.FetchCrawlStat;
-import org.ir.crawling.model.UrlCrawlStat;
-import org.ir.crawling.model.VisitCrawlStat;
+import org.ir.crawling.model.*;
 
 import java.net.URL;
 import java.util.List;
@@ -89,7 +86,7 @@ public class AlphaCrawler extends WebCrawler {
             URL originUrl = new URL(url);
             for (WebURL webURL : parseData.getOutgoingUrls()) {
                 URL outlinkUrl = new URL(webURL.getURL());
-                String indicator = originUrl.getHost().equals(outlinkUrl.getHost()) ? "OK" : "N_OK";
+                String indicator = originUrl.getHost().equals(outlinkUrl.getHost()) ? Indicator.OK.value : Indicator.N_OK.value;
                 UrlCrawlStat urlCrawlStat = new UrlCrawlStat(webURL.getURL(), indicator);
                 urlCrawlStats.add(urlCrawlStat);
             }
