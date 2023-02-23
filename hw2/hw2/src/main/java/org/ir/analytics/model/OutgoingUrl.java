@@ -53,7 +53,7 @@ public class OutgoingUrl {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Outgoing URLs\n");
+        sb.append("Outgoing URLs: \n");
         sb.append("================\n");
         sb.append(MessageFormat.format("Total URLs extracted: {0}\n", this.getTotalUrlsExtracted()));
         sb.append(MessageFormat.format("# unique URLs extracted: {0}\n", this.getUniqueUrlsExtractedCount()));

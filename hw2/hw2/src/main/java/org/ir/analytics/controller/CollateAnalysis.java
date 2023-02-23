@@ -16,11 +16,12 @@ public class CollateAnalysis {
         AnalyzeStatic analyzeStatic = new AnalyzeStatic();
         AnalyzeFetch analyzeFetch = new AnalyzeFetch();
         AnalyzeOutgoingUrls analyzeOutgoingUrls = new AnalyzeOutgoingUrls();
+        AnalyzeStatusCode analyzeStatusCode = new AnalyzeStatusCode();
 
         analyzeStatic.analyze(null, REPORT);
         analyzeFetch.analyze(FETCH_CSV, REPORT);
         analyzeOutgoingUrls.analyze(URLS_CSV, REPORT);
-
+        analyzeStatusCode.analyze(FETCH_CSV, REPORT);
     }
 
     private static void performInitialCleanUpAndCreateNewReportFile() {

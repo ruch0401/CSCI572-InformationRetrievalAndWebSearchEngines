@@ -95,7 +95,7 @@ public class CrawlerController {
     private static void writeFetchStatsToCsv() throws IOException {
         final var fetchStats = AlphaCrawler.getFetchStats();
         BufferedWriter bufferedWriter = new BufferedWriter(Files.newBufferedWriter(FETCH_LATIMES_CSV_OP));
-        CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.header, StatHeader.STATUS_CODE.header);
+        CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.value, StatHeader.STATUS_CODE.value);
         CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
         for (FetchCrawlStat urlStatusCode : fetchStats) {
             csvPrinter.printRecord(urlStatusCode.getUrl(), urlStatusCode.getStatusCode());
@@ -106,7 +106,7 @@ public class CrawlerController {
     private static void writeVisitStatsToCsv() throws IOException {
         final var visitStats = AlphaCrawler.getVisitStats();
         BufferedWriter bufferedWriter = new BufferedWriter(Files.newBufferedWriter(VISIT_LATIMES_CSV_OP));
-        CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.header, StatHeader.SIZE_OF_DOWNLOADED_PAGE.header, StatHeader.NUMBER_OF_OUTLINKS.header, StatHeader.CONTENT_TYPE.header);
+        CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.value, StatHeader.SIZE_OF_DOWNLOADED_PAGE.value, StatHeader.NUMBER_OF_OUTLINKS.value, StatHeader.CONTENT_TYPE.value);
         CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
         for (VisitCrawlStat visitStat : visitStats) {
             csvPrinter.printRecord(visitStat.getUrl(), visitStat.getDownloadedSize(), visitStat.getNumberOfOutlinks(), visitStat.getContentType());
@@ -117,7 +117,7 @@ public class CrawlerController {
     private static void writeUrlStatsToCsv() throws IOException {
         final var urlStats = AlphaCrawler.getUrlStats();
         BufferedWriter bufferedWriter = new BufferedWriter(Files.newBufferedWriter(URLS_LATIMES_CSV_OP));
-        CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.header, StatHeader.INDICATOR.header);
+        CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.value, StatHeader.INDICATOR.value);
         CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
         for (UrlCrawlStat urlStat : urlStats) {
             csvPrinter.printRecord(urlStat.getUrl(), urlStat.getSameDomainIndicator());

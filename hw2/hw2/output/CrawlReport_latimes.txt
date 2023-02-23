@@ -3,16 +3,20 @@ USC ID: 1111417799
 News site crawled: latimes.com
 Number of threads: 7
 
-Fetch Statistics
+Fetch Statistics: 
 ================
 # fetches attempted: 3
 # fetches succeeded: 3
 # fetches failed or aborted: 0
 
-Outgoing URLs
+Outgoing URLs: 
 ================
 Total URLs extracted: 665
 # unique URLs extracted: 665
 # unique URLs within News Site: : 352
 # unique URLs outside News Site:: 313
+
+Status Codes:
+=============
+200: 3
 

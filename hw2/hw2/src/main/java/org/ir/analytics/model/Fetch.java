@@ -43,7 +43,7 @@ public class Fetch {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Fetch Statistics\n");
+        sb.append("Fetch Statistics: \n");
         sb.append("================\n");
         sb.append(MessageFormat.format("# fetches attempted: {0}\n", this.getFetchCountAttempted()));
         sb.append(MessageFormat.format("# fetches succeeded: {0}\n", this.getFetchCountSucceeded()));

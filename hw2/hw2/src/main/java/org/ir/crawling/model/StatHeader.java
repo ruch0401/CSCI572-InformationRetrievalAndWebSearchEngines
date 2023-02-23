@@ -8,9 +8,9 @@ public enum StatHeader {
     CONTENT_TYPE("content_type"),
     INDICATOR("indicator");
 
-    public final String header;
+    public final String value;
 
-    StatHeader(String header) {
-        this.header = header;
+    StatHeader(String value) {
+        this.value = value;
     }
 }

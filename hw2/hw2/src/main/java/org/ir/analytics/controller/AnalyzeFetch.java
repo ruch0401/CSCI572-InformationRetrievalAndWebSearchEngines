@@ -1,10 +1,7 @@
 package org.ir.analytics.controller;
 
-import com.sleepycat.je.utilint.Stat;
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.io.FileUtils;
 import org.ir.analytics.model.Fetch;
 import org.ir.crawling.model.StatHeader;
 
@@ -22,7 +19,7 @@ public class AnalyzeFetch implements Analysis {
         ) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
-                    .setHeader(StatHeader.URL.header, StatHeader.STATUS_CODE.header)
+                    .setHeader(StatHeader.URL.value, StatHeader.STATUS_CODE.value)
                     .setSkipHeaderRecord(true)
                     .build();
 
@@ -30,7 +27,7 @@ public class AnalyzeFetch implements Analysis {
             fetch.setFetchCountAttempted(records.size());
 
             for (final CSVRecord csvRecord: records) {
-                int statusCode = Integer.parseInt(csvRecord.get(StatHeader.STATUS_CODE.header));
+                int statusCode = Integer.parseInt(csvRecord.get(StatHeader.STATUS_CODE.value));
                 if (statusCode >= 200 && statusCode <= 299) {
                     fetch.setFetchCountSucceeded(fetch.getFetchCountSucceeded() + 1);
                 } else {

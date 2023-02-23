@@ -24,8 +24,8 @@ public class AnalyzeOutgoingUrls implements Analysis {
         ) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
-                    .setHeader(StatHeader.URL.header,
-                            StatHeader.INDICATOR.header)
+                    .setHeader(StatHeader.URL.value,
+                            StatHeader.INDICATOR.value)
                     .setSkipHeaderRecord(true)
                     .build();
 
@@ -46,7 +46,7 @@ public class AnalyzeOutgoingUrls implements Analysis {
     private static Set<UrlCrawlStat> getUniqueUrls(List<CSVRecord> records) {
         return records
                 .stream()
-                .map(record -> new UrlCrawlStat(record.get(StatHeader.URL.header), record.get(StatHeader.INDICATOR.header)))
+                .map(record -> new UrlCrawlStat(record.get(StatHeader.URL.value), record.get(StatHeader.INDICATOR.value)))
                 .collect(Collectors.toSet());
     }
 
