@@ -14,8 +14,7 @@ import java.util.Map;
 public class AnalyzeStatusCode implements Analysis {
     @Override
     public void analyze(Path filepath, Path outputPath) {
-        try (Reader reader = Files.newBufferedReader(filepath);
-        ) {
+        try (Reader reader = Files.newBufferedReader(filepath);) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
                     .setHeader(StatHeader.URL.value, StatHeader.STATUS_CODE.value)

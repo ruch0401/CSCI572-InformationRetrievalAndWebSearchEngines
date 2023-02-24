@@ -20,3 +20,15 @@ Status Codes:
 =============
 200: 3
 
+File Sizes: 
+===========
+< 1KB: 0
+1KB ~ <10KB: 0
+10KB ~ <100KB: 0
+100KB ~ <1MB: 3
+>= 1MB: 0
+
+Content Types: 
+==============
+text/html;charset=UTF-8: 3
+
