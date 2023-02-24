@@ -24,11 +24,11 @@ import java.util.List;
 public class CrawlerController {
     private static final String ROOT = "../data/crawl/root";
     public static final String OUTPUT_DIR = "output";
-    public static final int NUMBER_OF_CRAWLERS = 7;
+    public static final int NUMBER_OF_CRAWLERS = 30;
     public static final String SEED_URL = "https://www.latimes.com/";
     public static final int MAX_DEPTH = 16;
-    public static final int MAX_PAGE_COUNT = 3;
-    public static final int POLITENESS_DELAY_IN_MILLIS = 1000;
+    public static final int MAX_PAGE_COUNT = 20000;
+    public static final int POLITENESS_DELAY_IN_MILLIS = 1;
 
     private static final Path FETCH_LATIMES_CSV_OP = Path.of(CrawlerController.OUTPUT_DIR, "fetch_latimes.csv");
     private static final Path VISIT_LATIMES_CSV_OP = Path.of(CrawlerController.OUTPUT_DIR, "visit_latimes.csv");

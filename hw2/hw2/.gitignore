@@ -24,3 +24,5 @@ target/
 /*/metastore_db/*
 /**/.flattened-pom.xml
 /**/.ci-friendly-pom.xml
+
+/output/urls_latimes.csv

@@ -63,7 +63,7 @@ public class AlphaCrawler extends WebCrawler {
             String url = page.getWebURL().getURL();
             int statusCode = page.getStatusCode();
             long downloadSize = page.getContentData().length;
-            String contentType = page.getContentType();
+            String contentType = page.getContentType().split(";")[0];
 
             int numberOfOutlinks = 0;
             ParseData parseData = page.getParseData();

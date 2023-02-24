@@ -2,9 +2,11 @@ package org.ir.analytics.controller;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.http.HttpStatus;
 import org.ir.crawling.model.StatHeader;
 
 import java.io.Reader;
+import java.net.http.HttpClient;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;

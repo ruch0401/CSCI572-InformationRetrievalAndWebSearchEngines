@@ -1,34 +1,37 @@
 Name: Ruchit Bhardwaj
 USC ID: 1111417799
 News site crawled: latimes.com
-Number of threads: 7
+Number of threads: 30
 
 Fetch Statistics: 
 ================
-# fetches attempted: 3
-# fetches succeeded: 3
+# fetches attempted: 18,177
+# fetches succeeded: 18,177
 # fetches failed or aborted: 0
 
 Outgoing URLs: 
 ================
-Total URLs extracted: 665
-# unique URLs extracted: 665
-# unique URLs within News Site: : 352
-# unique URLs outside News Site:: 313
+Total URLs extracted: 2,907,744
+# unique URLs extracted: 2,907,744
+# unique URLs within News Site: : 1,617,453
+# unique URLs outside News Site:: 1,290,291
 
 Status Codes:
 =============
-200: 3
+200: 18177
 
 File Sizes: 
 ===========
 < 1KB: 0
-1KB ~ <10KB: 0
-10KB ~ <100KB: 0
-100KB ~ <1MB: 3
->= 1MB: 0
+1KB ~ <10KB: 1
+10KB ~ <100KB: 867
+100KB ~ <1MB: 17,236
+>= 1MB: 73
 
 Content Types: 
 ==============
-text/html;charset=UTF-8: 3
+text/html; charset=utf-8: 1283
+text/html: 214
+text/html;charset=UTF-8: 16679
+text/css: 1
 
