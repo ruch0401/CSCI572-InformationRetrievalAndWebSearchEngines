@@ -2,11 +2,10 @@ package org.ir.analytics.controller;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.http.HttpStatus;
+import org.ir.common.HttpCode;
 import org.ir.crawling.model.StatHeader;
 
 import java.io.Reader;
-import java.net.http.HttpClient;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class AnalyzeStatusCode implements Analysis {
             List<CSVRecord> records = csvFormat.parse(reader).getRecords();
 
             Map<Integer, Integer> statusCodeAnalysisMap = new HashMap<>();
-            for (final CSVRecord record: records) {
+            for (final CSVRecord record : records) {
                 String statusCode = record.get(StatHeader.STATUS_CODE.value);
                 int statusCodeInt = Integer.parseInt(statusCode);
                 statusCodeAnalysisMap.put(statusCodeInt, statusCodeAnalysisMap.getOrDefault(statusCodeInt, 0) + 1);
@@ -40,12 +39,11 @@ public class AnalyzeStatusCode implements Analysis {
     }
 
     private String constructDynamicOutputString(Map<Integer, Integer> statusCodeAnalysisMap) {
-        // TODO: Add 200 OK, 401 Unauthorized, messages like these
         StringBuilder sb = new StringBuilder();
         sb.append("Status Codes:\n");
         sb.append("=============\n");
         statusCodeAnalysisMap.forEach((key, value) -> {
-            sb.append(String.format("%s: %s\n", key, value));
+            sb.append(String.format("%s %s: %s\n", key, HttpCode.getDescriptionForCode(key), value));
         });
         sb.append("\n"); // this is added to make sure that proper spacing is maintained in the output file
         return sb.toString();
