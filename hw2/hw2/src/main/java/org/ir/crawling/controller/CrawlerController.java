@@ -1,4 +1,4 @@
-package org.ir.crawling;
+package org.ir.crawling.controller;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -7,6 +7,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.ir.crawling.crawler.AlphaCrawler;
 import org.ir.crawling.model.FetchCrawlStat;
 import org.ir.crawling.model.StatHeader;
 import org.ir.crawling.model.UrlCrawlStat;

@@ -5,43 +5,38 @@ Number of threads: 30
 
 Fetch Statistics: 
 ================
-# fetches attempted: 19,899
-# fetches succeeded: 19,647
-# fetches failed or aborted: 252
+# fetches attempted: 19,894
+# fetches succeeded: 19,590
+# fetches failed or aborted: 304
 
 Outgoing URLs: 
 ================
-Total URLs extracted: 3,008,313
-# unique URLs extracted: 3,004,758
-# unique URLs within News Site: : 1,677,754
-# unique URLs outside News Site:: 1,327,004
+Total URLs extracted: 2,998,115
+# unique URLs extracted: 2,992,499
+# unique URLs within News Site: : 1,660,926
+# unique URLs outside News Site:: 1,331,573
 
 Status Codes:
 =============
-200 OK: 19647
-301 Moved Permanently: 107
-302 Found: 39
+200 OK: 19590
+301 Moved Permanently: 148
+302 Found: 38
 307 Temporary Redirect: 86
-404 Not Found: 20
+404 Not Found: 32
 
 File Sizes: 
 ===========
-< 1KB: 280
-1KB ~ <10KB: 265
-10KB ~ <100KB: 1,010
-100KB ~ <1MB: 18,015
+< 1KB: 30
+1KB ~ <10KB: 214
+10KB ~ <100KB: 743
+100KB ~ <1MB: 17,633
 >= 1MB: 76
 
 Content Types: 
 ==============
-application/xml: 832
-image/png: 310
-application/manifest+json: 1
-text/html: 18285
-application/json: 1
-image/jpeg: 194
-application/javascript: 1
+image/png: 324
+text/html: 18151
+image/jpeg: 200
 image/gif: 2
 image/svg+xml: 19
-application/font-woff2: 1
 

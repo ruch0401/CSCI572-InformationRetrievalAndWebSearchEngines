@@ -1,6 +1,6 @@
 package org.ir.analytics.controller;
 
-import org.ir.crawling.CrawlerController;
+import org.ir.crawling.controller.CrawlerController;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

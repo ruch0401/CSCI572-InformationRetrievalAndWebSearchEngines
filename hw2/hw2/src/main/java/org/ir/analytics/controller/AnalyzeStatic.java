@@ -1,7 +1,7 @@
 package org.ir.analytics.controller;
 
 import org.ir.analytics.model.Static;
-import org.ir.crawling.CrawlerController;
+import org.ir.crawling.controller.CrawlerController;
 
 import java.nio.file.Path;
 
