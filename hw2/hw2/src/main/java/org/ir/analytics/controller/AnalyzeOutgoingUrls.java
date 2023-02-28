@@ -19,7 +19,7 @@ public class AnalyzeOutgoingUrls implements Analysis {
     private final static OutgoingUrl outgoingUrls = new OutgoingUrl();
 
     @Override
-    public void analyze(Path filepath, Path outputPath) {
+    public String analyze(Path filepath, Path outputPath) {
         try (Reader reader = Files.newBufferedReader(filepath);
         ) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
@@ -30,17 +30,20 @@ public class AnalyzeOutgoingUrls implements Analysis {
                     .build();
 
             List<CSVRecord> records = csvFormat.parse(reader).getRecords();
-            outgoingUrls.setTotalUrlsExtracted(records.size());
+
+            // this is put together hastily and is not a good design but this is a forced assertion
+            assert records.size() == AnalyzeFileSize.outgoingUrl.getTotalUrlsExtracted();
+            outgoingUrls.setTotalUrlsExtracted(AnalyzeFileSize.outgoingUrl.getTotalUrlsExtracted());
 
             Set<UrlCrawlStat> uniqueUrls = getUniqueUrls(records);
             outgoingUrls.setUniqueUrlsExtractedCount(uniqueUrls.size());
             outgoingUrls.setUniqueUrlsWithinNewsSiteCount(getUniqueUrlsWithinNewsSite(uniqueUrls).size());
             outgoingUrls.setUniqueUrlsOutsideNewsSiteCount(getUniqueUrlsOutsideNewsSite(uniqueUrls).size());
-
-            outputAnalysisToFile(outputPath, outgoingUrls.toString());
+            return outgoingUrls.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return String.format("%s did not return any output string", this.getClass().getName());
     }
 
     private static Set<UrlCrawlStat> getUniqueUrls(List<CSVRecord> records) {

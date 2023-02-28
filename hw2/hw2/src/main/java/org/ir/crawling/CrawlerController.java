@@ -29,7 +29,6 @@ public class CrawlerController {
     public static final int MAX_DEPTH = 16;
     public static final int MAX_PAGE_COUNT = 20000;
     public static final int POLITENESS_DELAY_IN_MILLIS = 1;
-
     private static final Path FETCH_LATIMES_CSV_OP = Path.of(CrawlerController.OUTPUT_DIR, "fetch_latimes.csv");
     private static final Path VISIT_LATIMES_CSV_OP = Path.of(CrawlerController.OUTPUT_DIR, "visit_latimes.csv");
     private static final Path URLS_LATIMES_CSV_OP = Path.of(CrawlerController.OUTPUT_DIR, "urls_latimes.csv");

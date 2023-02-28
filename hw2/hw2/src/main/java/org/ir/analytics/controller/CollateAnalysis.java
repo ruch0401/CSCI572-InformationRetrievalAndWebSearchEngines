@@ -4,6 +4,7 @@ import org.ir.crawling.CrawlerController;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 public class CollateAnalysis {
     private static final Path REPORT = Path.of(CrawlerController.OUTPUT_DIR, "CrawlReport_latimes.txt");
@@ -20,17 +21,33 @@ public class CollateAnalysis {
         AnalyzeStatusCode analyzeStatusCode = new AnalyzeStatusCode();
         AnalyzeFileSize analyzeFileSize = new AnalyzeFileSize();
 
-        analyzeStatic.analyze(null, REPORT);
-        analyzeFetch.analyze(FETCH_CSV, REPORT);
-        analyzeOutgoingUrls.analyze(URLS_CSV, REPORT);
-        analyzeStatusCode.analyze(FETCH_CSV, REPORT);
-        analyzeFileSize.analyze(VISIT_CSV, REPORT);
+        final String staticData = analyzeStatic.analyze(null, REPORT);
+        final String fetchData = analyzeFetch.analyze(FETCH_CSV, REPORT);
+        final String fileSizeData = analyzeFileSize.analyze(VISIT_CSV, REPORT);
+        final String outgoingUrlData = analyzeOutgoingUrls.analyze(URLS_CSV, REPORT); // TODO: confirm that #total urls extracted is the sum of #outgoing links; #total urls extracted is the sum of all values in column 3 of visit.csv
+        final String statusCodeData = analyzeStatusCode.analyze(FETCH_CSV, REPORT);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(staticData);
+        sb.append(fetchData);
+        sb.append(outgoingUrlData);
+        sb.append(statusCodeData);
+        sb.append(fileSizeData);
+        CollateAnalysis.outputAnalysisToFile(REPORT, sb.toString());
     }
 
     private static void performInitialCleanUpAndCreateNewReportFile() {
         try {
             Files.deleteIfExists(REPORT);
             Files.createFile(REPORT);
+        } catch (Exception e) {
+            e.printStackTrace();;
+        }
+    }
+
+    private static void outputAnalysisToFile(Path filepath, String data) {
+        try {
+            Files.writeString(filepath, data, StandardOpenOption.APPEND);
         } catch (Exception e) {
             e.printStackTrace();;
         }

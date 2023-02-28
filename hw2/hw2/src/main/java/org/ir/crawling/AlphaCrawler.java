@@ -66,7 +66,10 @@ public class AlphaCrawler extends WebCrawler {
             String contentType = page.getContentType().split(";")[0];
 
             int numberOfOutlinks = 0;
+
+            // TODO: Need to include Binary parse data as well
             ParseData parseData = page.getParseData();
+
             if (parseData instanceof HtmlParseData) {
                 numberOfOutlinks = parseData.getOutgoingUrls().size();
             }

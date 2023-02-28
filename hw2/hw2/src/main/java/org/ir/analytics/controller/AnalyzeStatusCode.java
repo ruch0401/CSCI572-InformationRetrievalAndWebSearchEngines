@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class AnalyzeStatusCode implements Analysis {
     @Override
-    public void analyze(Path filepath, Path outputPath) {
+    public String analyze(Path filepath, Path outputPath) {
         try (Reader reader = Files.newBufferedReader(filepath);) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
@@ -31,11 +31,11 @@ public class AnalyzeStatusCode implements Analysis {
                 statusCodeAnalysisMap.put(statusCodeInt, statusCodeAnalysisMap.getOrDefault(statusCodeInt, 0) + 1);
             }
 
-            String outputString = constructDynamicOutputString(statusCodeAnalysisMap);
-            outputAnalysisToFile(outputPath, outputString);
+            return constructDynamicOutputString(statusCodeAnalysisMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return String.format("%s did not return any output string", this.getClass().getName());
     }
 
     private String constructDynamicOutputString(Map<Integer, Integer> statusCodeAnalysisMap) {

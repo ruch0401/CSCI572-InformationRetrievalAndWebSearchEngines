@@ -14,7 +14,7 @@ public class AnalyzeFetch implements Analysis {
     private static final Fetch fetch = new Fetch();
 
     @Override
-    public void analyze(Path inputPath, Path outputPath) {
+    public String analyze(Path inputPath, Path outputPath) {
         try (Reader reader = Files.newBufferedReader(inputPath);
         ) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
@@ -34,9 +34,10 @@ public class AnalyzeFetch implements Analysis {
                     fetch.setFetchCountFailedOrAborted(fetch.getFetchCountFailedOrAborted() + 1);
                 }
             }
-            outputAnalysisToFile(outputPath, fetch.toString());
+            return fetch.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return String.format("%s did not return any output string", this.getClass().getName());
     }
 }
