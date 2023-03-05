@@ -1,0 +1,15 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-POST\-COMMIT" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-post\-commit\fR \- Git post\-commit hook implementation
+.SH "SYNOPSIS"
+\fBgit lfs post\-commit\fR
+.SH "DESCRIPTION"
+Responds to Git post\-commit events\. It makes sure that any files which are marked as lockable by \fBgit lfs track\fR are read\-only in the working copy, if not currently locked by the local user\.
+.P
+Where the \fBgit lfs post\-merge\fR command, which has a similar purpose, must examine all files in the working copy, \fBgit lfs post\-commit\fR can limit itself checking only those files which have changed in \fBHEAD\fR\. It primarily handles newly added lockable files which have not yet been made read\-only\.
+.SH "SEE ALSO"
+git\-lfs\-post\-merge(1), git\-lfs\-track(1)
+.P
+Part of the git\-lfs(1) suite\.

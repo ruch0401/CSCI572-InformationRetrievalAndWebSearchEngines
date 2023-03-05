@@ -1,0 +1,26 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-UNLOCK" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-unlock\fR \- Remove "locked" setting for a file on the Git LFS server
+.SH "SYNOPSIS"
+\fBgit lfs unlock\fR \fIOPTIONS\fR \fIpath\fR
+.SH "DESCRIPTION"
+Removes the given file path as "locked" on the Git LFS server\. Files must exist and have a clean git status before they can be unlocked\. The \fB\-\-force\fR flag will skip these checks\.
+.SH "OPTIONS"
+.TP
+\fB\-r\fR \fIname\fR \fB\-\-remote=\fR\fIname\fR
+Specify the Git LFS server to use\. Ignored if the \fBlfs\.url\fR config key is set\.
+.TP
+\fB\-f\fR \fB\-\-force\fR
+Tells the server to remove the lock, even if it\'s owned by another user\.
+.TP
+\fB\-i <id>\fR \fB\-\-id=<id>\fR
+Specifies a lock by its ID instead of path\.
+.TP
+\fB\-\-json\fR
+Writes lock info as JSON to STDOUT if the command exits successfully\. Intended for interoperation with external tools\. If the command returns with a non\-zero exit code, plain text messages will be sent to STDERR\.
+.SH "SEE ALSO"
+git\-lfs\-lock(1), git\-lfs\-locks(1)\.
+.P
+Part of the git\-lfs(1) suite\.

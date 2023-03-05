@@ -1,0 +1,22 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-LOCK" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-lock\fR \- Set a file as "locked" on the Git LFS server
+.SH "SYNOPSIS"
+\fBgit lfs lock\fR \fIoptions\fR \fIpath\fR
+.SH "DESCRIPTION"
+Sets the given file path as "locked" against the Git LFS server, with the intention of blocking attempts by other users to update the given path\. Locking a file requires the file to exist in the working copy\.
+.P
+Once locked, LFS will verify that Git pushes do not modify files locked by other users\. See the description of the \fBlfs\.<url>\.locksverify\fR config key in git\-lfs\-config(5) for details\.
+.SH "OPTIONS"
+.TP
+\fB\-r\fR \fIname\fR \fB\-\-remote=\fR\fIname\fR
+Specify the Git LFS server to use\. Ignored if the \fBlfs\.url\fR config key is set\.
+.TP
+\fB\-\-json\fR
+Writes lock info as JSON to STDOUT if the command exits successfully\. Intended for interoperation with external tools\. If the command returns with a non\-zero exit code, plain text messages will be sent to STDERR\.
+.SH "SEE ALSO"
+git\-lfs\-unlock(1), git\-lfs\-locks(1)\.
+.P
+Part of the git\-lfs(1) suite\.

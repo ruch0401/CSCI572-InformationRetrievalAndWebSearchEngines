@@ -1,0 +1,34 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-POINTER" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-pointer\fR \- Build, compare, and check pointers
+.SH "SYNOPSIS"
+\fBgit lfs pointer \-\-file=path/to/file\fR
+.br
+\fBgit lfs pointer \-\-file=path/to/file \-\-pointer=path/to/pointer\fR
+.br
+\fBgit lfs pointer \-\-file=path/to/file \-\-stdin\fR \fBgit lfs pointer \-\-check \-\-file=path/to/file\fR
+.SH "Description"
+Builds and optionally compares generated pointer files to ensure consistency between different Git LFS implementations\.
+.SH "OPTIONS"
+.TP
+\fB\-\-file\fR
+A local file to build the pointer from\.
+.TP
+\fB\-\-pointer\fR
+A local file including the contents of a pointer generated from another implementation\. This is compared to the pointer generated from \fB\-\-file\fR\.
+.TP
+\fB\-\-stdin\fR
+Reads the pointer from STDIN to compare with the pointer generated from \fB\-\-file\fR\.
+.TP
+\fB\-\-check\fR
+Reads the pointer from STDIN (if \fB\-\-stdin\fR is given) or the filepath (if \fB\-\-file\fR) is given\. If neither or both of \fB\-\-stdin\fR and \fB\-\-file\fR are given, the invocation is invalid\. Exits 0 if the data read is a valid Git LFS pointer\. Exits 1 otherwise\.
+.TP
+\fB\-\-strict\fR:
+
+.TP
+\fB\-\-no\-strict\fR
+In conjunction with \fB\-\-check\fR, \fB\-\-strict\fR verifies that the pointer is canonical; that is, it would be the one created by Git LFS\. If it is not, exits 2\. The default, for backwards compatibility, is \fB\-\-no\-strict\fR, but this may change in a future version\.
+.SH "SEE ALSO"
+Part of the git\-lfs(1) suite\.

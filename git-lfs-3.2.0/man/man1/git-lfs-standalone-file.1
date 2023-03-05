@@ -1,0 +1,15 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-STANDALONE\-FILE" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-standalone\-file\fR \- Standalone transfer adapter for file URLs
+.SH "SYNOPSIS"
+\fBgit lfs standalone\-file\fR
+.SH "DESCRIPTION"
+Provides a standalone transfer adapter for file URLs (local paths)\.
+.P
+By default, Git LFS requires the support of an HTTP server to implement the Git LFS protocol\. However, this tool allows the use of URLs starting with \fBfile:///\fR (that is, those representing local paths) in addition\. Configuration is not necessary; Git LFS handles this internally\.
+.P
+When invoked, this tool speaks JSON on input and output as a standalone transfer adapter\. It is not intended for use by end users\.
+.SH "SEE ALSO"
+Part of the git\-lfs(1) suite\.

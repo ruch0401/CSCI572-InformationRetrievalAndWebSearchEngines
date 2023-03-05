@@ -25,3 +25,4 @@ target/
 /**/.flattened-pom.xml
 /**/.ci-friendly-pom.xml
 ../hw2/hw2/output/urls_latimes.csv
+/data/

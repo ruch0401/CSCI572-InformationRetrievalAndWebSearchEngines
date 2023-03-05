@@ -1,0 +1,13 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-POST\-CHECKOUT" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-post\-checkout\fR \- Git post\-checkout hook implementation
+.SH "SYNOPSIS"
+\fBgit lfs post\-checkout\fR \fIrev_before\fR \fIref_after\fR \fIis_branch_checkout\fR
+.SH "DESCRIPTION"
+Responds to Git post\-checkout events\. It makes sure that any files which are marked as lockable by \fBgit lfs track\fR are read\-only in the working copy, if not currently locked by the local user\.
+.SH "SEE ALSO"
+git\-lfs\-track(1)
+.P
+Part of the git\-lfs(1) suite\.

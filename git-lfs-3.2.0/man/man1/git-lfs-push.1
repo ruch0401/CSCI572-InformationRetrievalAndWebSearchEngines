@@ -1,0 +1,27 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-PUSH" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-push\fR \- Push queued large files to the Git LFS endpoint
+.SH "SYNOPSIS"
+\fBgit lfs push\fR \fIoptions\fR \fIremote\fR [\fIref\fR\|\.\|\.\|\.]
+.br
+\fBgit lfs push\fR \fIremote\fR [\fIref\fR\|\.\|\.\|\.]
+.br
+\fBgit lfs push\fR \-\-object\-id \fIremote\fR [\fIoid\fR\|\.\|\.\|\.]
+.SH "DESCRIPTION"
+Upload Git LFS files to the configured endpoint for the current Git remote\. By default, it filters out objects that are already referenced by the local clone of the remote\.
+.SH "OPTIONS"
+.TP
+\fB\-\-dry\-run\fR
+Print the files that would be pushed, without actually pushing them\.
+.TP
+\fB\-\-all\fR
+This pushes all objects to the remote that are referenced by any commit reachable from the refs provided as arguments\. If no refs are provided, then all local refs are pushed\. Note that this behavior differs from that of git\-lfs\-fetch(1) when its \fB\-\-all\fR option is used; in that case, all refs are fetched, including refs other than those under \fBrefs/heads\fR and \fBrefs/tags\fR\. If you are migrating a repository with these commands, make sure to run \fBgit lfs push\fR for any additional remote refs that contain Git LFS objects not reachable from your local refs\.
+.TP
+\fB\-\-object\-id\fR
+This pushes only the object OIDs listed at the end of the command, separated by spaces\.
+.SH "SEE ALSO"
+git\-lfs\-fetch(1), git\-lfs\-pre\-push(1)\.
+.P
+Part of the git\-lfs(1) suite\.

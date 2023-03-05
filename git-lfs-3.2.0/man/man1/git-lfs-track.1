@@ -1,0 +1,48 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-TRACK" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-track\fR \- View or add Git LFS paths to Git attributes
+.SH "SYNOPSIS"
+\fBgit lfs track\fR [options] [\fIpattern\fR\|\.\|\.\|\.]
+.SH "DESCRIPTION"
+Start tracking the given patterns(s) through Git LFS\. The \fIpattern\fR argument is written to \.gitattributes\. If no paths are provided, simply list the currently\-tracked paths\.
+.P
+The gitattributes documentation \fIhttps://git\-scm\.com/docs/gitattributes\fR states that patterns use the gitignore pattern rules \fIhttps://git\-scm\.com/docs/gitignore\fR to match paths\. This means that patterns which contain asterisk (\fB*\fR), question mark (\fB?\fR), and the bracket characters (\fB[\fR and \fB]\fR) are treated specially; to disable this behavior and treat them literally instead, use \fB\-\-filename\fR or escape the character with a backslash\.
+.SH "OPTIONS"
+.IP "\[ci]" 4
+\fB\-\-verbose\fR \fB\-v\fR: If enabled, have \fBgit lfs track\fR log files which it will touch\. Disabled by default\.
+.IP "\[ci]" 4
+\fB\-\-dry\-run\fR \fB\-d\fR: If enabled, have \fBgit lfs track\fR log all actions it would normally take (adding entries to \.gitattributes, touching files on disk, etc) without performing any mutative operations to the disk\.
+.IP
+\fBgit lfs track \-\-dry\-run [files]\fR also implicitly mocks the behavior of passing the \fB\-\-verbose\fR, and will log in greater detail what it is doing\.
+.IP
+Disabled by default\.
+.IP "\[ci]" 4
+\fB\-\-filename\fR Treat the arguments as literal filenames, not as patterns\. Any special glob characters in the filename will be escaped when writing the \fB\.gitattributes\fR file\.
+.IP "\[ci]" 4
+\fB\-\-lockable\fR \fB\-l\fR Make the paths \'lockable\', meaning they should be locked to edit them, and will be made read\-only in the working copy when not locked\.
+.IP "\[ci]" 4
+\fB\-\-not\-lockable\fR Remove the lockable flag from the paths so they are no longer read\-only unless locked\.
+.IP "\[ci]" 4
+\fB\-\-no\-excluded\fR Do not list patterns that are excluded in the output; only list patterns that are tracked\.
+.IP "\[ci]" 4
+\fB\-\-no\-modify\-attrs\fR Makes matched entries stat\-dirty so that Git can re\-index files you wish to convert to LFS\. Does not modify any \fB\.gitattributes\fR file(s)\.
+.IP "" 0
+.SH "EXAMPLES"
+.TP
+List the patterns that Git LFS is currently tracking:
+
+.TP
+Configure Git LFS to track GIF files:
+
+.TP
+Configure Git LFS to track PSD files and make them read\-only unless locked:
+
+.TP
+Configure Git LFS to track the file named \fBproject [1]\.psd\fR:
+
+.SH "SEE ALSO"
+git\-lfs\-untrack(1), git\-lfs\-install(1), gitattributes(5), gitignore(5)\.
+.P
+Part of the git\-lfs(1) suite\.

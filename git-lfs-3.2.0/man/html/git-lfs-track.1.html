@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' content='text/html;charset=utf8'>
+  <meta name='generator' content='Ronn-NG/v0.9.1 (http://github.com/apjanke/ronn-ng/tree/0.9.1)'>
+  <title>git-lfs-track(1) - View or add Git LFS paths to Git attributes</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#SYNOPSIS">SYNOPSIS</a>
+    <a href="#DESCRIPTION">DESCRIPTION</a>
+    <a href="#OPTIONS">OPTIONS</a>
+    <a href="#EXAMPLES">EXAMPLES</a>
+    <a href="#SEE-ALSO">SEE ALSO</a>
+  </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>git-lfs-track(1)</li>
+    <li class='tc'></li>
+    <li class='tr'>git-lfs-track(1)</li>
+  </ol>
+
+  
+
+<h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>git-lfs-track</code> - <span class="man-whatis">View or add Git LFS paths to Git attributes</span>
+</p>
+<h2 id="SYNOPSIS">SYNOPSIS</h2>
+
+<p><code>git lfs track</code> [options] [<var>pattern</var>...]</p>
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p>Start tracking the given patterns(s) through Git LFS.  The <var>pattern</var> argument
+is written to .gitattributes. If no paths are provided, simply list the
+currently-tracked paths.</p>
+
+<p>The <a href="https://git-scm.com/docs/gitattributes">gitattributes documentation</a> states
+that patterns use the <a href="https://git-scm.com/docs/gitignore">gitignore pattern rules</a>
+to match paths. This means that patterns which contain asterisk (<code>*</code>), question
+mark (<code>?</code>), and the bracket characters (<code>[</code> and <code>]</code>) are treated specially; to
+disable this behavior and treat them literally instead, use <code>--filename</code> or
+escape the character with a backslash.</p>
+
+<h2 id="OPTIONS">OPTIONS</h2>
+
+<ul>
+  <li>
+    <p><code>--verbose</code> <code>-v</code>:
+If enabled, have <code>git lfs track</code> log files which it will touch. Disabled by
+default.</p>
+  </li>
+  <li>
+    <p><code>--dry-run</code> <code>-d</code>:
+If enabled, have <code>git lfs track</code> log all actions it would normally take
+(adding entries to .gitattributes, touching files on disk, etc) without
+performing any mutative operations to the disk.</p>
+
+    <p><code>git lfs track --dry-run [files]</code> also implicitly mocks the behavior of
+passing the <code>--verbose</code>, and will log in greater detail what it is doing.</p>
+
+    <p>Disabled by default.</p>
+  </li>
+  <li>
+    <p><code>--filename</code>
+Treat the arguments as literal filenames, not as patterns. Any special glob
+characters in the filename will be escaped when writing the <code>.gitattributes</code>
+file.</p>
+  </li>
+  <li>
+    <p><code>--lockable</code> <code>-l</code>
+Make the paths 'lockable', meaning they should be locked to edit them, and
+will be made read-only in the working copy when not locked.</p>
+  </li>
+  <li>
+    <p><code>--not-lockable</code>
+Remove the lockable flag from the paths so they are no longer read-only unless
+locked.</p>
+  </li>
+  <li>
+    <p><code>--no-excluded</code>
+Do not list patterns that are excluded in the output; only list patterns that
+are tracked.</p>
+  </li>
+  <li>
+    <p><code>--no-modify-attrs</code>
+Makes matched entries stat-dirty so that Git can re-index files you wish to
+convert to LFS. Does not modify any <code>.gitattributes</code> file(s).</p>
+  </li>
+</ul>
+
+<h2 id="EXAMPLES">EXAMPLES</h2>
+
+<dl>
+<dt>List the patterns that Git LFS is currently tracking:
+
+    <p><code>git lfs track</code></p>
+</dt>
+<dd></dd>
+<dt>Configure Git LFS to track GIF files:
+
+    <p><code>git lfs track "*.gif"</code></p>
+</dt>
+<dd></dd>
+<dt>Configure Git LFS to track PSD files and make them read-only unless locked:
+
+    <p><code>git lfs track --lockable "*.psd"</code></p>
+</dt>
+<dd></dd>
+<dt>Configure Git LFS to track the file named <code>project [1].psd</code>:
+
+    <p><code>git lfs track --filename "project [1].psd"</code></p>
+</dt>
+<dd></dd>
+</dl>
+
+<h2 id="SEE-ALSO">SEE ALSO</h2>
+
+<p><a class="man-ref" href="git-lfs-untrack.1.html">git-lfs-untrack<span class="s">(1)</span></a>, <a class="man-ref" href="git-lfs-install.1.html">git-lfs-install<span class="s">(1)</span></a>, <a class="man-ref" href="https://git-scm.com/docs/gitattributes">gitattributes<span class="s">(5)</span></a>, <a class="man-ref" href="https://git-scm.com/docs/gitignore">gitignore<span class="s">(5)</span></a>.</p>
+
+<p>Part of the <a class="man-ref" href="git-lfs.1.html">git-lfs<span class="s">(1)</span></a> suite.</p>
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'></li>
+    <li class='tc'>May 2022</li>
+    <li class='tr'>git-lfs-track(1)</li>
+  </ol>
+
+  </div>
+</body>
+</html>

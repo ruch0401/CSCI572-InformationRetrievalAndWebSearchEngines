@@ -1,0 +1,42 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-LS\-FILES" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-ls\-files\fR \- Show information about Git LFS files in the index and working tree
+.SH "SYNOPSIS"
+\fBgit lfs ls\-files\fR [\fIref\fR]
+.br
+\fBgit lfs ls\-files\fR \fIref\fR \fIref\fR
+.SH "DESCRIPTION"
+Display paths of Git LFS files that are found in the tree at the given reference\. If no reference is given, scan the currently checked\-out branch\. If two references are given, the LFS files that are modified between the two references are shown; deletions are not listed\.
+.P
+An asterisk (*) after the OID indicates a full object, a minus (\-) indicates an LFS pointer\.
+.SH "OPTIONS"
+.TP
+\fB\-l\fR \fB\-\-long\fR
+Show the entire 64 character OID, instead of just first 10\.
+.TP
+\fB\-s\fR \fB\-\-size\fR
+Show the size of the LFS object between parenthesis at the end of a line\.
+.TP
+\fB\-d\fR \fB\-\-debug\fR
+Show as much information as possible about a LFS file\. This is intended for manual inspection; the exact format may change at any time\.
+.TP
+\fB\-a\fR \fB\-\-all\fR
+Inspects the full history of the repository, not the current HEAD (or other provided reference)\. This will include previous versions of LFS objects that are no longer found in the current tree\.
+.TP
+\fB\-\-deleted\fR
+Shows the full history of the given reference, including objects that have been deleted\.
+.TP
+\fB\-I\fR \fIpaths\fR \fB\-\-include=\fR\fIpaths\fR
+Include paths matching only these patterns; see [FETCH SETTINGS]\.
+.TP
+\fB\-X\fR \fIpaths\fR \fB\-\-exclude=\fR\fIpaths\fR
+Exclude paths matching any of these patterns; see [FETCH SETTINGS]\.
+.TP
+\fB\-n\fR \fB\-\-name\-only\fR
+Show only the lfs tracked file names\. ## SEE ALSO
+.P
+git\-lfs\-status(1), git\-lfs\-config(5)\.
+.P
+Part of the git\-lfs(1) suite\.

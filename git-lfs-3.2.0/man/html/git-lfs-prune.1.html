@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' content='text/html;charset=utf8'>
+  <meta name='generator' content='Ronn-NG/v0.9.1 (http://github.com/apjanke/ronn-ng/tree/0.9.1)'>
+  <title>git-lfs-prune(1) - Delete old LFS files from local storage</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#SYNOPSIS">SYNOPSIS</a>
+    <a href="#DESCRIPTION">DESCRIPTION</a>
+    <a href="#OPTIONS">OPTIONS</a>
+    <a href="#RECENT-FILES">RECENT FILES</a>
+    <a href="#UNPUSHED-LFS-FILES">UNPUSHED LFS FILES</a>
+    <a href="#VERIFY-REMOTE">VERIFY REMOTE</a>
+    <a href="#DEFAULT-REMOTE">DEFAULT REMOTE</a>
+    <a href="#SEE-ALSO">SEE ALSO</a>
+  </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>git-lfs-prune(1)</li>
+    <li class='tc'></li>
+    <li class='tr'>git-lfs-prune(1)</li>
+  </ol>
+
+  
+
+<h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>git-lfs-prune</code> - <span class="man-whatis">Delete old LFS files from local storage</span>
+</p>
+<h2 id="SYNOPSIS">SYNOPSIS</h2>
+
+<p><code>git lfs prune</code> <a href="#OPTIONS" title="OPTIONS" data-bare-link="true">options</a></p>
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p>Deletes local copies of LFS files which are old, thus freeing up disk space.
+Prune operates by enumerating all the locally stored objects, and then deleting
+any which are not referenced by at least ONE of the following:</p>
+
+<ul>
+  <li>the current checkout</li>
+  <li>all existing stashes</li>
+  <li>a 'recent branch'; see <a href="#RECENT-FILES" title="RECENT FILES" data-bare-link="true">RECENT FILES</a>
+</li>
+  <li>a 'recent commit' on the current branch or recent branches; see <a href="#RECENT-FILES" title="RECENT FILES" data-bare-link="true">RECENT FILES</a>
+</li>
+  <li>a commit which has not been pushed; see <a href="#UNPUSHED-LFS-FILES" title="UNPUSHED LFS FILES" data-bare-link="true">UNPUSHED LFS FILES</a>
+</li>
+  <li>any other worktree checkouts; see <a class="man-ref" href="https://git-scm.com/docs/git-worktree">git-worktree<span class="s">(1)</span></a>
+</li>
+</ul>
+
+<p>In general terms, prune will delete files you're not currently using and which
+are not 'recent', so long as they've been pushed i.e. the local copy is not the
+only one.</p>
+
+<p>The reflog is not considered, only commits. Therefore LFS objects that are
+only referenced by orphaned commits are always deleted.</p>
+
+<p>Note: you should not run <code>git lfs prune</code> if you have different repositories
+sharing the same custom storage directory; see <a class="man-ref" href="git-lfs-config.5.html">git-lfs-config<span class="s">(5)</span></a> for more
+details about <code>lfs.storage</code> option.</p>
+
+<p>In your Git configuration or in a <code>.lfsconfig</code> file, you may set
+<code>lfs.fetchexclude</code> to a comma-separated list of paths.  If <code>lfs.fetchexclude</code>
+is defined, then any Git LFS files whose paths match one in that list will
+be pruned unless they are referenced by a stash or an unpushed commit.
+Paths are matched using wildcard matching as per <a class="man-ref" href="https://git-scm.com/docs/gitignore">gitignore<span class="s">(5)</span></a>.</p>
+
+<h2 id="OPTIONS">OPTIONS</h2>
+
+<ul>
+  <li>
+    <p><code>--dry-run</code> <code>-d</code>
+Don't actually delete anything, just report on what would have been done</p>
+  </li>
+  <li>
+    <p><code>--force</code> <code>-f</code>
+Prune all objects except unpushed objects, including objects required for
+currently checked out refs.  Implies <code>--recent</code>.</p>
+  </li>
+  <li>
+    <p><code>--recent</code>
+Prune even objects that would normally be preserved by the configuration
+options specified below in <a href="#RECENT-FILES" title="RECENT FILES" data-bare-link="true">RECENT FILES</a>.</p>
+  </li>
+  <li>
+    <p><code>--verify-remote</code> <code>-c</code>
+Contact the remote and check that copies of the files we would delete
+definitely exist before deleting. See <a href="#VERIFY-REMOTE" title="VERIFY REMOTE" data-bare-link="true">VERIFY REMOTE</a>.</p>
+  </li>
+  <li>
+    <p><code>--no-verify-remote</code>
+Disables remote verification if lfs.pruneverifyremotealways was enabled in
+settings. See <a href="#VERIFY-REMOTE" title="VERIFY REMOTE" data-bare-link="true">VERIFY REMOTE</a>.</p>
+  </li>
+  <li>
+    <p><code>--verbose</code> <code>-v</code>
+Report the full detail of what is/would be deleted.</p>
+  </li>
+</ul>
+
+<h2 id="RECENT-FILES">RECENT FILES</h2>
+
+<p>Prune won't delete LFS files referenced by 'recent' commits, in case you want
+to use them again without having to download. The definition of 'recent' is
+derived from the one used by <a class="man-ref" href="git-lfs-fetch.1.html">git-lfs-fetch<span class="s">(1)</span></a> to download recent objects with
+the <code>--recent</code> option, with an offset of a number of days (default 3) to ensure
+that we always keep files you download for a few days.</p>
+
+<p>Here are the <a class="man-ref" href="https://git-scm.com/docs/git-config">git-config<span class="s">(1)</span></a> settings that control this behaviour:</p>
+
+<ul>
+  <li>
+    <p><code>lfs.pruneoffsetdays</code> <br>
+The number of extra days added to the fetch recent settings when using them
+to decide when to prune. So for a reference to be considered old enough to
+prune, it has to be this many days older than the oldest reference that would
+be downloaded via <code>git lfs fetch --recent</code>. Only used if the relevant
+fetch recent 'days' setting is non-zero. Default 3 days.</p>
+  </li>
+  <li>
+    <p><code>lfs.fetchrecentrefsdays</code> <br>
+<code>lfs.fetchrecentremoterefs</code> <br>
+<code>lfs.fetchrecentcommitsdays</code> <br>
+These have the same meaning as <a class="man-ref" href="git-lfs-fetch.1.html">git-lfs-fetch<span class="s">(1)</span></a> with the <code>--recent</code> option,
+they are used as a base for the offset above. Anything which falls outside
+of this offsetted window is considered old enough to prune. If a day value is
+zero, that condition is not used at all to retain objects and they will be
+pruned.</p>
+  </li>
+</ul>
+
+<h2 id="UNPUSHED-LFS-FILES">UNPUSHED LFS FILES</h2>
+
+<p>When the only copy of an LFS file is local, and it is still reachable from any
+reference, that file can never be pruned, regardless of how old it is.</p>
+
+<p>To determine whether an LFS file has been pushed, we check the difference
+between local refs and remote refs; where the local ref is ahead, any LFS files
+referenced in those commits is unpushed and will not be deleted. This works
+because the LFS pre-push hook always ensures that LFS files are pushed before
+the remote branch is updated.</p>
+
+<p>See <a href="#DEFAULT-REMOTE" title="DEFAULT REMOTE" data-bare-link="true">DEFAULT REMOTE</a>, for which remote is considered 'pushed' for pruning
+purposes.</p>
+
+<h2 id="VERIFY-REMOTE">VERIFY REMOTE</h2>
+
+<p>The <code>--verify-remote</code> option calls the remote to ensure that any LFS files to be
+deleted have copies on the remote before actually deleting them.</p>
+
+<p>Usually the check performed by <a href="#UNPUSHED-LFS-FILES" title="UNPUSHED LFS FILES" data-bare-link="true">UNPUSHED LFS FILES</a> is enough to determine that
+files have been pushed, but if you want to be extra sure at the expense of extra
+overhead you can make prune actually call the remote API and verify the
+presence of the files you're about to delete locally. See <a href="#DEFAULT-REMOTE" title="DEFAULT REMOTE" data-bare-link="true">DEFAULT REMOTE</a> for
+which remote is checked.</p>
+
+<p>You can make this behaviour the default by setting <code>lfs.pruneverifyremotealways</code>
+to true.</p>
+
+<p>In addition to the overhead of calling the remote, using this option also
+requires prune to distinguish between totally unreachable files (e.g. those that
+were added to the index but never committed, or referenced only by orphaned
+commits), and files which are still referenced, but by commits which are
+prunable. This makes the prune process take longer.</p>
+
+<h2 id="DEFAULT-REMOTE">DEFAULT REMOTE</h2>
+
+<p>When identifying <a href="#UNPUSHED-LFS-FILES" title="UNPUSHED LFS FILES" data-bare-link="true">UNPUSHED LFS FILES</a> and performing <a href="#VERIFY-REMOTE" title="VERIFY REMOTE" data-bare-link="true">VERIFY REMOTE</a>, a single
+remote, 'origin', is normally used as the reference.  This one remote is
+considered canonical; even if you use multiple remotes, you probably want to
+retain your local copies until they've made it to that remote. 'origin' is used
+by default because that will usually be a main central repo, or your fork of
+it - in both cases that's a valid remote backup of your work. If origin doesn't
+exist then by default nothing will be pruned because everything is treated as
+'unpushed'.</p>
+
+<p>You can alter the remote via git config: <code>lfs.pruneremotetocheck</code>. Set this
+to a different remote name to check that one instead of 'origin'.</p>
+
+<h2 id="SEE-ALSO">SEE ALSO</h2>
+
+<p><a class="man-ref" href="git-lfs-fetch.1.html">git-lfs-fetch<span class="s">(1)</span></a>, <a class="man-ref" href="https://git-scm.com/docs/gitignore">gitignore<span class="s">(5)</span></a>.</p>
+
+<p>Part of the <a class="man-ref" href="git-lfs.1.html">git-lfs<span class="s">(1)</span></a> suite.</p>
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'></li>
+    <li class='tc'>May 2022</li>
+    <li class='tr'>git-lfs-prune(1)</li>
+  </ol>
+
+  </div>
+</body>
+</html>

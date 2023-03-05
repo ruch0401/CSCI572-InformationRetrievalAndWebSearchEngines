@@ -1,0 +1,27 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-FILTER\-PROCESS" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-filter\-process\fR \- Git filter process that converts between pointer and actual content
+.SH "SYNOPSIS"
+\fBgit lfs filter\-process\fR \fBgit lfs filter\-process \-\-skip\fR
+.SH "DESCRIPTION"
+Implement the Git process filter API, exchanging handshake messages and then accepting and responding to requests to either clean or smudge a file\.
+.P
+filter\-process is always run by Git\'s filter process, and is configured by the repository\'s Git attributes\.
+.P
+In your Git configuration or in a \fB\.lfsconfig\fR file, you may set either or both of \fBlfs\.fetchinclude\fR and \fBlfs\.fetchexclude\fR to comma\-separated lists of paths\. If \fBlfs\.fetchinclude\fR is defined, Git LFS pointer files will only be replaced with the contents of the corresponding Git LFS object file if their path matches one in that list, and if \fBlfs\.fetchexclude\fR is defined, Git LFS pointer files will only be replaced with the contents of the corresponding Git LFS object file if their path does not match one in that list\. Paths are matched using wildcard matching as per gitignore(5)\. Git LFS pointer files that are not replaced with the contents of their corresponding object files are simply copied to standard output without change\.
+.P
+The filter process uses Git\'s pkt\-line protocol to communicate, and is documented in detail in gitattributes(5)\.
+.SH "OPTIONS"
+Without any options, filter\-process accepts and responds to requests normally\.
+.TP
+\fB\-\-skip\fR
+Skip automatic downloading of objects on clone or pull\.
+.TP
+\fBGIT_LFS_SKIP_SMUDGE\fR
+Disables the smudging process\. For more, see: git\-lfs\-config(5)\.
+.SH "SEE ALSO"
+git\-lfs\-clean(1), git\-lfs\-install(1), git\-lfs\-smudge(1), gitattributes(5), gitignore(5)\.
+.P
+Part of the git\-lfs(1) suite\.

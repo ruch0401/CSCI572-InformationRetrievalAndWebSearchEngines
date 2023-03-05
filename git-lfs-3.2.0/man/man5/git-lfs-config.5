@@ -1,0 +1,291 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-CONFIG" "5" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-config\fR \- Configuration options for git\-lfs
+.SH "CONFIGURATION FILES"
+git\-lfs reads its configuration from any file supported by \fBgit config \-l\fR, including all per\-repository, per\-user, and per\-system Git configuration files\.
+.P
+Additionally, a small number of settings can be specified in a file called \fB\.lfsconfig\fR at the root of the repository; see the "LFSCONFIG" section for more details\. This configuration file is useful for setting options such as the LFS URL or access type for all users of a repository, especially when these differ from the default\. The \fB\.lfsconfig\fR file uses the same format as \fB\.gitconfig\fR\.
+.P
+If the \fB\.lfsconfig\fR file is missing, the index is checked for a version of the file, and that is used instead\. If both are missing, \fBHEAD\fR is checked for the file\. If the repository is bare, only \fBHEAD\fR is checked\. This order may change for checkouts in the future to better match Git\'s behavior\.
+.P
+Settings from Git configuration files override the \fB\.lfsconfig\fR file\. This allows you to override settings like \fBlfs\.url\fR in your local environment without having to modify the \fB\.lfsconfig\fR file\.
+.P
+Most options regarding git\-lfs are contained in the \fB[lfs]\fR section, meaning they are all named \fBlfs\.foo\fR or similar, although occasionally an lfs option can be scoped inside the configuration for a remote\.
+.SH "LIST OF OPTIONS"
+.SS "General settings"
+.IP "\[ci]" 4
+\fBlfs\.url\fR / \fBremote\.<remote>\.lfsurl\fR
+.IP
+The url used to call the Git LFS remote API\. Default blank (derive from clone URL)\.
+.IP "\[ci]" 4
+\fBlfs\.pushurl\fR / \fBremote\.<remote>\.lfspushurl\fR
+.IP
+The url used to call the Git LFS remote API when pushing\. Default blank (derive from either LFS non\-push urls or clone url)\.
+.IP "\[ci]" 4
+\fBremote\.lfsdefault\fR
+.IP
+The remote used to find the Git LFS remote API\. \fBlfs\.url\fR and \fBbranch\.*\.remote\fR for the current branch override this setting\. If this setting is not specified and there is exactly one remote, that remote is picked; otherwise, the default is \fBorigin\fR\.
+.IP "\[ci]" 4
+\fBremote\.lfspushdefault\fR
+.IP
+The remote used to find the Git LFS remote API when pushing\. \fBlfs\.url\fR and \fBbranch\.*\.pushremote\fR for the current branch override this setting\. If this setting is not set, \fBremote\.pushdefault\fR is used, or if that is not set, the order of selection is used as specified in the \fBremote\.lfsdefault\fR above\.
+.IP "\[ci]" 4
+\fBlfs\.dialtimeout\fR
+.IP
+Sets the maximum time, in seconds, that the HTTP client will wait to initiate a connection\. This does not include the time to send a request and wait for a response\. Default: 30 seconds
+.IP "\[ci]" 4
+\fBlfs\.tlstimeout\fR
+.IP
+Sets the maximum time, in seconds, that the HTTP client will wait for a TLS handshake\. Default: 30 seconds\.
+.IP "\[ci]" 4
+\fBlfs\.activitytimeout\fR / \fBlfs\.https://<host>\.activitytimeout\fR
+.IP
+Sets the maximum time, in seconds, that the HTTP client will wait for the next tcp read or write\. If < 1, no activity timeout is used at all\. Default: 30 seconds
+.IP "\[ci]" 4
+\fBlfs\.keepalive\fR
+.IP
+Sets the maximum time, in seconds, for the HTTP client to maintain keepalive connections\. Default: 30 minutes\.
+.IP "\[ci]" 4
+\fBlfs\.ssh\.automultiplex\fR
+.IP
+When using the pure SSH\-based protocol, whether to multiplex requests over a single connection when possible\. This option requires the use of OpenSSH or a compatible SSH client\. Default: true\.
+.IP "\[ci]" 4
+\fBlfs\.ssh\.retries\fR
+.IP
+Specifies the number of times Git LFS will attempt to obtain authorization via SSH before aborting\. Default: 5\.
+.IP "\[ci]" 4
+\fBcore\.askpass\fR, GIT_ASKPASS
+.IP
+Given as a program and its arguments, this is invoked when authentication is needed against the LFS API\. The contents of stdout are interpreted as the password\.
+.IP "\[ci]" 4
+\fBlfs\.cachecredentials\fR
+.IP
+Enables in\-memory SSH and Git Credential caching for a single \'git lfs\' command\. Default: enabled\.
+.IP "\[ci]" 4
+\fBlfs\.storage\fR
+.IP
+Allow override LFS storage directory\. Non\-absolute path is relativized to inside of Git repository directory (usually \fB\.git\fR)\.
+.IP
+Note: you should not run \fBgit lfs prune\fR if you have different repositories sharing the same storage directory\.
+.IP
+Default: \fBlfs\fR in Git repository directory (usually \fB\.git/lfs\fR)\.
+.IP "\[ci]" 4
+\fBlfs\.largefilewarning\fR
+.IP
+Warn when a file is 4 GiB or larger\. Such files will be corrupted when using Windows (unless smudging is disabled) with a Git for Windows version less than 2\.34\.0 due to a limitation in Git\. Default: true if the version is less than 2\.34\.0, false otherwise\.
+.IP "" 0
+.SS "Upload and download transfer settings"
+These settings control how the upload and download of LFS content occurs\.
+.IP "\[ci]" 4
+\fBlfs\.concurrenttransfers\fR
+.IP
+The number of concurrent uploads/downloads\. Default 8\.
+.IP "\[ci]" 4
+\fBlfs\.basictransfersonly\fR
+.IP
+If set to true, only basic HTTP upload/download transfers will be used, ignoring any more advanced transfers that the client/server may support\. This is primarily to work around bugs or incompatibilities\.
+.IP
+The git\-lfs client supports basic HTTP downloads, resumable HTTP downloads (using \fBRange\fR headers), and resumable uploads via tus\.io protocol\. Custom transfer methods can be added via \fBlfs\.customtransfer\fR (see next section)\. However setting this value to true limits the client to simple HTTP\.
+.IP "\[ci]" 4
+\fBlfs\.tustransfers\fR
+.IP
+If set to true, this enables resumable uploads of LFS objects through the tus\.io API\. Once this feature is finalized, this setting will be removed, and tus\.io uploads will be available for all clients\.
+.IP "\[ci]" 4
+\fBlfs\.standalonetransferagent\fR
+.IP
+Allows the specified custom transfer agent to be used directly for transferring files, without asking the server how the transfers should be made\. The custom transfer agent has to be defined in a \fBlfs\.customtransfer\.<name>\fR settings group\.
+.IP "\[ci]" 4
+\fBlfs\.customtransfer\.<name>\.path\fR
+.IP
+\fBlfs\.customtransfer\.<name>\fR is a settings group which defines a custom transfer hook which allows you to upload/download via an intermediate process, using any mechanism you like (rather than just HTTP)\. \fBpath\fR should point to the process you wish to invoke\. The protocol between the git\-lfs client and the custom transfer process is documented at https://github\.com/git\-lfs/git\-lfs/blob/main/docs/custom\-transfers\.md
+.IP
+\fIname\fR must be a unique identifier that the LFS server understands\. When calling the LFS API the client will include a list of supported transfer types\. If the server also supports this named transfer type, it will select it and actions returned from the API will be in relation to that transfer type (may not be traditional URLs for example)\. Only if the server accepts \fIname\fR as a transfer it supports will this custom transfer process be invoked\.
+.IP "\[ci]" 4
+\fBlfs\.customtransfer\.<name>\.args\fR
+.IP
+If the custom transfer process requires any arguments, these can be provided here\. This string will be expanded by the shell\.
+.IP "\[ci]" 4
+\fBlfs\.customtransfer\.<name>\.concurrent\fR
+.IP
+If true (the default), git\-lfs will invoke the custom transfer process multiple times in parallel, according to \fBlfs\.concurrenttransfers\fR, splitting the transfer workload between the processes\.
+.IP "\[ci]" 4
+\fBlfs\.customtransfer\.<name>\.direction\fR
+.IP
+Specifies which direction the custom transfer process supports, either "download", "upload", or "both"\. The default if unspecified is "both"\.
+.IP "\[ci]" 4
+\fBlfs\.transfer\.maxretries\fR
+.IP
+Specifies how many retries LFS will attempt per OID before marking the transfer as failed\. Must be an integer which is at least one\. If the value is not an integer, is less than one, or is not given, a value of eight will be used instead\.
+.IP "\[ci]" 4
+\fBlfs\.transfer\.maxretrydelay\fR
+.IP
+Specifies the maximum time in seconds LFS will wait between each retry attempt\. LFS uses exponential backoff for retries, doubling the time between each retry until reaching this limit\. If a server requests a delay using the \fBRetry\-After\fR header, the header value overrides the exponential delay for that attempt and is not limited by this option\.
+.IP
+Must be an integer which is not negative\. Use zero to disable delays between retries unless requested by a server\. If the value is not an integer, is negative, or is not given, a value of ten will be used instead\.
+.IP "\[ci]" 4
+\fBlfs\.transfer\.maxverifies\fR
+.IP
+Specifies how many verification requests LFS will attempt per OID before marking the transfer as failed, if the object has a verification action associated with it\. Must be an integer which is at least one\. If the value is not an integer, is less than one, or is not given, a default value of three will be used instead\.
+.IP "\[ci]" 4
+\fBlfs\.transfer\.enablehrefrewrite\fR
+.IP
+If set to true, this enables rewriting href of LFS objects using \fBurl\.*\.insteadof/pushinsteadof\fR config\. \fBpushinsteadof\fR is used only for uploading, and \fBinsteadof\fR is used for downloading and for uploading when \fBpushinsteadof\fR is not set\.
+.IP "" 0
+.SS "Push settings"
+.IP "\[ci]" 4
+\fBlfs\.allowincompletepush\fR
+.IP
+When pushing, allow objects to be missing from the local cache without halting a Git push\. Default: false\.
+.IP "" 0
+.SS "Fetch settings"
+.IP "\[ci]" 4
+\fBlfs\.fetchinclude\fR
+.IP
+When fetching, only download objects which match any entry on this comma\-separated list of paths/filenames\. Wildcard matching is as per gitignore(5)\. See git\-lfs\-fetch(1) for examples\.
+.IP "\[ci]" 4
+\fBlfs\.fetchexclude\fR
+.IP
+When fetching, do not download objects which match any item on this comma\-separated list of paths/filenames\. Wildcard matching is as per gitignore(5)\. See git\-lfs\-fetch(1) for examples\.
+.IP "\[ci]" 4
+\fBlfs\.fetchrecentrefsdays\fR
+.IP
+If non\-zero, fetches refs which have commits within N days of the current date\. Only local refs are included unless lfs\.fetchrecentremoterefs is true\. Also used as a basis for pruning old files\. The default is 7 days\.
+.IP "\[ci]" 4
+\fBlfs\.fetchrecentremoterefs\fR
+.IP
+If true, fetches remote refs (for the remote you\'re fetching) as well as local refs in the recent window\. This is useful to fetch objects for remote branches you might want to check out later\. The default is true; if you set this to false, fetching for those branches will only occur when you either check them out (losing the advantage of fetch \-\-recent), or create a tracking local branch separately then fetch again\.
+.IP "\[ci]" 4
+\fBlfs\.fetchrecentcommitsdays\fR
+.IP
+In addition to fetching at refs, also fetches previous changes made within N days of the latest commit on the ref\. This is useful if you\'re often reviewing recent changes\. Also used as a basis for pruning old files\. The default is 0 (no previous changes)\.
+.IP "\[ci]" 4
+\fBlfs\.fetchrecentalways\fR
+.IP
+Always operate as if \-\-recent was included in a \fBgit lfs fetch\fR call\. Default false\.
+.IP "" 0
+.SS "Prune settings"
+.IP "\[ci]" 4
+\fBlfs\.pruneoffsetdays\fR
+.IP
+The number of days added to the \fBlfs\.fetchrecent*\fR settings to determine what can be pruned\. Default is 3 days, i\.e\. that anything fetched at the very oldest edge of the \'recent window\' is eligible for pruning 3 days later\.
+.IP "\[ci]" 4
+\fBlfs\.pruneremotetocheck\fR
+.IP
+Set the remote that LFS files must have been pushed to in order for them to be considered eligible for local pruning\. Also the remote which is called if \-\-verify\-remote is enabled\.
+.IP "\[ci]" 4
+\fBlfs\.pruneverifyremotealways\fR
+.IP
+Always run \fBgit lfs prune\fR as if \fB\-\-verify\-remote\fR was provided\.
+.IP "" 0
+.SS "Extensions"
+.IP "\[ci]" 4
+\fBlfs\.extension\.<name>\.<setting>\fR
+.IP
+Git LFS extensions enable the manipulation of files streams during smudge and clean\. \fBname\fR groups the settings for a single extension, and the settings are: * \fBclean\fR The command which runs when files are added to the index * \fBsmudge\fR The command which runs when files are written to the working copy * \fBpriority\fR The order of this extension compared to others
+.IP "" 0
+.SS "Other settings"
+.IP "\[ci]" 4
+\fBlfs\.<url>\.access\fR
+.IP
+Note: this setting is normally set by LFS itself on receiving a 401 response (authentication required), you don\'t normally need to set it manually\.
+.IP
+If set to "basic" then credentials will be requested before making batch requests to this url, otherwise a public request will initially be attempted\.
+.IP "\[ci]" 4
+\fBlfs\.<url>\.locksverify\fR
+.IP
+Determines whether locks are checked before Git pushes\. This prevents you from pushing changes to files that other users have locked\. The Git LFS pre\-push hook varies its behavior based on the value of this config key\.
+.IP "\[ci]" 4
+\fBnull\fR \- In the absence of a value, Git LFS will attempt the call, and warn if it returns an error\. If the response is valid, Git LFS will set the value to \fBtrue\fR, and will halt the push if the user attempts to update a file locked by another user\. If the server returns a \fB501 Not Implemented\fR response, Git LFS will set the value to \fBfalse\.\fR
+.IP "\[ci]" 4
+\fBtrue\fR \- Git LFS will attempt to verify locks, halting the Git push if there are any server issues, or if the user attempts to update a file locked by another user\.
+.IP "\[ci]" 4
+\fBfalse\fR \- Git LFS will completely skip the lock check in the pre\-push hook\. You should set this if you\'re not using File Locking, or your Git server verifies locked files on pushes automatically\.
+.IP "" 0
+.IP
+Supports URL config lookup as described in: https://git\-scm\.com/docs/git\-config#git\-config\-httplturlgt\. To set this value per\-host: \fBgit config \-\-global lfs\.https://github\.com/\.locksverify [true|false]\fR\.
+.IP "\[ci]" 4
+\fBlfs\.<url>\.contenttype\fR
+.IP
+Determines whether Git LFS should attempt to detect an appropriate HTTP \fBContent\-Type\fR header when uploading using the \'basic\' upload adapter\. If set to false, the default header of \fBContent\-Type: application/octet\-stream\fR is chosen instead\. Default: \'true\'\.
+.IP "\[ci]" 4
+\fBlfs\.skipdownloaderrors\fR
+.IP
+Causes Git LFS not to abort the smudge filter when a download error is encountered, which allows actions such as checkout to work when you are unable to download the LFS content\. LFS files which could not download will contain pointer content instead\.
+.IP
+Note that this will result in git commands which call the smudge filter to report success even in cases when LFS downloads fail, which may affect scripts\.
+.IP
+You can also set the environment variable GIT_LFS_SKIP_DOWNLOAD_ERRORS=1 to get the same effect\.
+.IP "\[ci]" 4
+\fBGIT_LFS_PROGRESS\fR
+.IP
+This environment variable causes Git LFS to emit progress updates to an absolute file\-path on disk when cleaning, smudging, or fetching\.
+.IP
+Progress is reported periodically in the form of a new line being appended to the end of the file\. Each new line will take the following format:
+.IP
+\fB<direction> <current>/<total files> <downloaded>/<total> <name>\fR
+.IP
+Each field is described below: * \fBdirection\fR: The direction of transfer, either "checkout", "download", or "upload"\. * \fBcurrent\fR The index of the currently transferring file\. * \fBtotal files\fR The estimated count of all files to be transferred\. * \fBdownloaded\fR The number of bytes already downloaded\. * \fBtotal\fR The entire size of the file, in bytes\. * \fBname\fR The name of the file\.
+.IP "\[ci]" 4
+\fBGIT_LFS_FORCE_PROGRESS\fR \fBlfs\.forceprogress\fR
+.IP
+Controls whether Git LFS will suppress progress status when the standard output stream is not attached to a terminal\. The default is \fBfalse\fR which makes Git LFS detect whether stdout is a terminal and suppress progress when it\'s not; you can disable this behaviour and force progress status even when standard output stream is not a terminal by setting either variable to 1, \'yes\' or \'true\'\.
+.IP "\[ci]" 4
+\fBGIT_LFS_SKIP_SMUDGE\fR
+.IP
+Sets whether or not Git LFS will skip attempting to convert pointers of files tracked into their corresponding objects when checked out into a working copy\. If \'true\', \'1\', \'on\', or similar, Git LFS will skip the smudge process in both \fBgit lfs smudge\fR and \fBgit lfs filter\-process\fR\. If unset, or set to \'false\', \'0\', \'off\', or similar, Git LFS will smudge files as normal\.
+.IP "\[ci]" 4
+\fBGIT_LFS_SKIP_PUSH\fR
+.IP
+Sets whether or not Git LFS will attempt to upload new Git LFS object in a pre\-push hook\. If \'true\', \'1\', \'on\', or similar, Git LFS will skip the pre\-push hook, so no new Git LFS objects will be uploaded\. If unset, or set to \'false\', \'0\', \'off\', or similar, Git LFS will proceed as normal\.
+.IP "\[ci]" 4
+\fBGIT_LFS_SET_LOCKABLE_READONLY\fR \fBlfs\.setlockablereadonly\fR
+.IP
+These settings, the first an environment variable and the second a gitconfig setting, control whether files marked as \'lockable\' in \fBgit lfs track\fR are made read\-only in the working copy when not locked by the current user\. The default is \fBtrue\fR; you can disable this behaviour and have all files writeable by setting either variable to 0, \'no\' or \'false\'\.
+.IP "\[ci]" 4
+\fBlfs\.lockignoredfiles\fR
+.IP
+This setting controls whether Git LFS will set ignored files that match the lockable pattern read only as well as tracked files\. The default is \fBfalse\fR; you can enable this behavior by setting the variable to 1, \'yes\', or \'true\'\.
+.IP "\[ci]" 4
+\fBlfs\.defaulttokenttl\fR
+.IP
+This setting sets a default token TTL when git\-lfs\-authenticate does not include the TTL in the JSON response but still enforces it\.
+.IP
+Note that this is only necessary for larger repositories hosted on LFS servers that don\'t include the TTL\.
+.IP "" 0
+.SH "LFSCONFIG"
+The \.lfsconfig file in a repository is read and interpreted in the same format as the file stored in \.git/config\. It allows a subset of keys to be used, including and limited to:
+.IP "\[ci]" 4
+lfs\.allowincompletepush
+.IP "\[ci]" 4
+lfs\.fetchexclude
+.IP "\[ci]" 4
+lfs\.fetchinclude
+.IP "\[ci]" 4
+lfs\.gitprotocol
+.IP "\[ci]" 4
+lfs\.locksverify
+.IP "\[ci]" 4
+lfs\.pushurl
+.IP "\[ci]" 4
+lfs\.skipdownloaderrors
+.IP "\[ci]" 4
+lfs\.url
+.IP "\[ci]" 4
+lfs\.{*}\.access
+.IP "\[ci]" 4
+remote\.{name}\.lfsurl
+.IP "" 0
+.P
+The set of keys allowed in this file is restricted for security reasons\.
+.SH "EXAMPLES"
+.TP
+Configure a custom LFS endpoint for your repository:
+
+.P
+\fBgit config \-f \.lfsconfig lfs\.url https://lfs\.example\.com/foo/bar/info/lfs\fR
+.SH "SEE ALSO"
+git\-config(1), git\-lfs\-install(1), gitattributes(5), gitignore(5)\.
+.P
+Part of the git\-lfs(1) suite\.

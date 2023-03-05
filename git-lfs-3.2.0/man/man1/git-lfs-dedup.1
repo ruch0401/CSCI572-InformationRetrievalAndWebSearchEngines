@@ -1,0 +1,15 @@
+.\" generated with Ronn-NG/v0.9.1
+.\" http://github.com/apjanke/ronn-ng/tree/0.9.1
+.TH "GIT\-LFS\-DEDUP" "1" "May 2022" ""
+.SH "NAME"
+\fBgit\-lfs\-dedup\fR \- Deduplicate Git LFS files
+.SH "SYNOPSIS"
+\fBgit lfs dedup\fR
+.SH "DESCRIPTION"
+Deduplicates storage by re\-creating working tree files as clones of the files in the Git LFS storage directory using the operating system\'s copy\-on\-write file creation functionality\.
+.P
+If the operating system or file system don\'t support copy\-on\-write file creation, this command exits unsuccessfully\.
+.P
+This command will also exit without success if any Git LFS extensions are configured, as these will typically be used to alter the file contents before they are written to the Git LFS storage directory, and therefore the working tree files should not be copy\-on\-write clones of the LFS object files\.
+.SH "SEE ALSO"
+Part of the git\-lfs(1) suite\.
