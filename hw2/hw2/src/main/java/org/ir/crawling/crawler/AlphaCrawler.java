@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class AlphaCrawler extends WebCrawler {
+    static final Props props = Props.getInstance();
     private static List<FetchCrawlStat> fetchCrawlStats;
     private static List<VisitCrawlStat> visitCrawlStats;
     private static List<UrlCrawlStat> urlCrawlStats;
@@ -52,8 +53,7 @@ public class AlphaCrawler extends WebCrawler {
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
         String path = url.getPath().toLowerCase();
-        return href.startsWith(Props.SEED_URL_HTTPS) || href.startsWith(Props.SEED_URL_HTTP);
-//                (ACCEPTED_DOC_TYPES.matcher(path).matches() || ACCEPTED_IMAGE_TYPES.matcher(path).matches());
+        return href.startsWith(props.SEED_URL_HTTPS) || href.startsWith(props.SEED_URL_HTTP);
     }
 
     /**
