@@ -4,7 +4,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.ir.analytics.model.FileSize;
 import org.ir.analytics.model.OutgoingUrl;
-import org.ir.crawling.model.StatHeader;
+import org.ir.crawling.model.enums.StatHeader;
 import org.ir.crawling.model.VisitCrawlStat;
 
 import java.io.Reader;

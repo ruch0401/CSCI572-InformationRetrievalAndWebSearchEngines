@@ -1,5 +1,6 @@
 package org.ir.analytics.controller;
 
+import org.ir.cli.Props;
 import org.ir.crawling.controller.CrawlerController;
 
 import java.nio.file.Files;
@@ -7,10 +8,10 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 public class CollateAnalysis {
-    private static final Path REPORT = Path.of(CrawlerController.OUTPUT_DIR, "CrawlReport_latimes.txt");
-    private static final Path FETCH_CSV = Path.of(CrawlerController.OUTPUT_DIR, "fetch_latimes.csv");
-    private static final Path URLS_CSV = Path.of(CrawlerController.OUTPUT_DIR, "urls_latimes.csv");
-    private static final Path VISIT_CSV = Path.of(CrawlerController.OUTPUT_DIR, "visit_latimes.csv");
+    private static final Path REPORT = Path.of(Props.OUTPUT_DIR, "CrawlReport_latimes.txt");
+    private static final Path FETCH_CSV = Path.of(Props.OUTPUT_DIR, "fetch_latimes.csv");
+    private static final Path URLS_CSV = Path.of(Props.OUTPUT_DIR, "urls_latimes.csv");
+    private static final Path VISIT_CSV = Path.of(Props.OUTPUT_DIR, "visit_latimes.csv");
     public static void main(String[] args) {
 
         performInitialCleanUpAndCreateNewReportFile();

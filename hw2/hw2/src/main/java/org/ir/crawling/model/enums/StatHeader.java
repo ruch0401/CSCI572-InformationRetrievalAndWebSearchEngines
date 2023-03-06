@@ -1,4 +1,4 @@
-package org.ir.crawling.model;
+package org.ir.crawling.model.enums;
 
 public enum StatHeader {
     URL("url"),

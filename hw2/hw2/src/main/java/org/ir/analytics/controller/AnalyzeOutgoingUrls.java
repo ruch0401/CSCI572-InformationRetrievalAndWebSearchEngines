@@ -3,8 +3,8 @@ package org.ir.analytics.controller;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.ir.analytics.model.OutgoingUrl;
-import org.ir.crawling.model.Indicator;
-import org.ir.crawling.model.StatHeader;
+import org.ir.crawling.model.enums.Indicator;
+import org.ir.crawling.model.enums.StatHeader;
 import org.ir.crawling.model.UrlCrawlStat;
 
 import java.io.Reader;

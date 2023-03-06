@@ -6,6 +6,7 @@ import edu.uci.ics.crawler4j.parser.ParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import org.ir.cli.Props;
 import org.ir.crawling.model.*;
+import org.ir.crawling.model.enums.Indicator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

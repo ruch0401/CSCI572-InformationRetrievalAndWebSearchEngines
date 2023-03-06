@@ -3,7 +3,7 @@ package org.ir.analytics.controller;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.ir.analytics.model.Fetch;
-import org.ir.crawling.model.StatHeader;
+import org.ir.crawling.model.enums.StatHeader;
 
 import java.io.Reader;
 import java.nio.file.Files;

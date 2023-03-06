@@ -3,12 +3,11 @@ package org.ir.analytics.controller;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.ir.common.HttpCode;
-import org.ir.crawling.model.StatHeader;
+import org.ir.crawling.model.enums.StatHeader;
 
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
