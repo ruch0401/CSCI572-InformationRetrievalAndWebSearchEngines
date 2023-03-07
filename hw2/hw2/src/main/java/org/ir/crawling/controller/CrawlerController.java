@@ -49,11 +49,19 @@ public class CrawlerController {
     private static final Logger logger = LoggerFactory.getLogger(CrawlerController.class);
 
     public static void main(String[] args) throws Exception {
-        
+
         JCommander.newBuilder()
                 .addObject(props)
-                .build()
-                .parse(args);
+                .build().
+                parse(args);
+
+        if (props.isHelp()) {
+            JCommander.newBuilder()
+                    .addObject(props)
+                    .build()
+                    .usage();
+            return;
+        }
 
         CrawlConfig config = new CrawlConfig();
         configureCrawler(config);
@@ -76,8 +84,7 @@ public class CrawlerController {
         final var pageFetcher = new PageFetcher(config);
         final var robotstxtConfig = new RobotstxtConfig();
         final var robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
-        final var controller = new CrawlController(config, pageFetcher, robotstxtServer);
-        return controller;
+        return new CrawlController(config, pageFetcher, robotstxtServer);
     }
 
     private static void instantiateAndStartCrawling(CrawlController controller) {
