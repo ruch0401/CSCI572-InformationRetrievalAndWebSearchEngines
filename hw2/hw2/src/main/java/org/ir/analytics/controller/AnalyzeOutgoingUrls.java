@@ -6,6 +6,8 @@ import org.ir.analytics.model.OutgoingUrl;
 import org.ir.crawling.model.enums.Indicator;
 import org.ir.crawling.model.enums.StatHeader;
 import org.ir.crawling.model.UrlCrawlStat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -17,9 +19,11 @@ import java.util.stream.Collectors;
 public class AnalyzeOutgoingUrls implements Analysis {
 
     private final static OutgoingUrl outgoingUrls = new OutgoingUrl();
+    private static final Logger logger = LoggerFactory.getLogger(AnalyzeOutgoingUrls.class);
 
     @Override
     public String analyze(Path filepath, Path outputPath) {
+        System.out.println(String.format("Starting analyzing outgoing url data", filepath.getFileName()));
         try (Reader reader = Files.newBufferedReader(filepath);
         ) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
@@ -41,7 +45,7 @@ public class AnalyzeOutgoingUrls implements Analysis {
             outgoingUrls.setUniqueUrlsOutsideNewsSiteCount(getUniqueUrlsOutsideNewsSite(uniqueUrls).size());
             return outgoingUrls.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error while analyzing url file: " + e.getMessage());
         }
         return String.format("%s did not return any output string", this.getClass().getName());
     }

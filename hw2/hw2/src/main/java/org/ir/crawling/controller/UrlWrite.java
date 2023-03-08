@@ -28,9 +28,11 @@ public class UrlWrite implements Write {
             BufferedWriter bufferedWriter = new BufferedWriter(Files.newBufferedWriter(CrawlerController.URLS_LATIMES_CSV_OP));
             CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.value, StatHeader.INDICATOR.value);
             CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
+            System.out.println(String.format("Attempting to write crawled metrics to file: %s", CrawlerController.URLS_LATIMES_CSV_OP));
             for (UrlCrawlStat urlStat : urlCrawlStats) {
                 csvPrinter.printRecord(urlStat.getUrl(), urlStat.getSameDomainIndicator());
             }
+            System.out.println(String.format("Successfully completing writing url data to file %s", CrawlerController.URLS_LATIMES_CSV_OP));
             csvPrinter.flush();
         } catch (IOException exception) {
             logger.error("Error while writing to file: " + exception.getMessage());

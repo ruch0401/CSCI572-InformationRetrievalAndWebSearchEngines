@@ -6,6 +6,8 @@ import org.ir.analytics.model.FileSize;
 import org.ir.analytics.model.OutgoingUrl;
 import org.ir.crawling.model.enums.StatHeader;
 import org.ir.crawling.model.VisitCrawlStat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -18,9 +20,11 @@ import java.util.stream.Collectors;
 public class AnalyzeFileSize implements Analysis {
     public static final OutgoingUrl outgoingUrl = new OutgoingUrl();
     private final FileSize fileSize = new FileSize();
+    private static final Logger logger = LoggerFactory.getLogger(AnalyzeFileSize.class);
 
     @Override
     public String analyze(Path filepath, Path outputPath) {
+        System.out.println(String.format("Starting analyzing file size data", filepath.getFileName()));
         try (Reader reader = Files.newBufferedReader(filepath);) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
@@ -57,7 +61,7 @@ public class AnalyzeFileSize implements Analysis {
             String fileSizeOutput = fileSize.toString();
             return fileSizeOutput + contentTypeOutput;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error while analyzing visit file stats: " + e.getMessage());
         }
         return String.format("%s did not return any output string", this.getClass().getName());
     }

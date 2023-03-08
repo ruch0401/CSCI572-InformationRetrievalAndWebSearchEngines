@@ -9,10 +9,10 @@ import java.nio.file.StandardOpenOption;
 
 public class CollateAnalysis {
     static final Props props = Props.getInstance();
-    private static final Path REPORT = Path.of(props.OUTPUT_DIR, "CrawlReport_latimes.txt");
-    private static final Path FETCH_CSV = Path.of(props.OUTPUT_DIR, "fetch_latimes.csv");
-    private static final Path URLS_CSV = Path.of(props.OUTPUT_DIR, "urls_latimes.csv");
-    private static final Path VISIT_CSV = Path.of(props.OUTPUT_DIR, "visit_latimes.csv");
+    private static final Path REPORT = Path.of(props.getOUTPUT_DIR(), "CrawlReport_latimes.txt");
+    private static final Path FETCH_CSV = Path.of(props.getOUTPUT_DIR(), props.getOUTPUT_FETCH());
+    private static final Path URLS_CSV = Path.of(props.getOUTPUT_DIR(), props.getOUTPUT_URL());
+    private static final Path VISIT_CSV = Path.of(props.getOUTPUT_DIR(), props.getOUTPUT_VISIT());
     public static void main(String[] args) {
 
         performInitialCleanUpAndCreateNewReportFile();
@@ -50,6 +50,7 @@ public class CollateAnalysis {
     private static void outputAnalysisToFile(Path filepath, String data) {
         try {
             Files.writeString(filepath, data, StandardOpenOption.APPEND);
+            System.out.println(String.format("Completed analysis. Writing results to output file [%s]", filepath.getFileName()));
         } catch (Exception e) {
             e.printStackTrace();;
         }

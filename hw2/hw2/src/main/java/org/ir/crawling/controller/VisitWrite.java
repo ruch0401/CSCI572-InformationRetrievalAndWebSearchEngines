@@ -28,9 +28,13 @@ public class VisitWrite implements Write {
             BufferedWriter bufferedWriter = new BufferedWriter(Files.newBufferedWriter(CrawlerController.VISIT_LATIMES_CSV_OP));
             CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.value, StatHeader.SIZE_OF_DOWNLOADED_PAGE.value, StatHeader.NUMBER_OF_OUTLINKS.value, StatHeader.CONTENT_TYPE.value);
             CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
+
+            System.out.println(String.format("Attempting to write crawled metrics to file: %s", CrawlerController.VISIT_LATIMES_CSV_OP));
             for (VisitCrawlStat visitStat : visitCrawlStats) {
                 csvPrinter.printRecord(visitStat.getUrl(), visitStat.getDownloadedSize(), visitStat.getNumberOfOutlinks(), visitStat.getContentType());
             }
+            System.out.println(String.format("Successfully completing writing visit data to file %s", CrawlerController.VISIT_LATIMES_CSV_OP));
+
             csvPrinter.flush();
         } catch (IOException exception) {
             logger.error("Error while writing to file: " + exception.getMessage());

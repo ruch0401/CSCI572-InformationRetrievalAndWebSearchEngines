@@ -29,9 +29,11 @@ public class FetchWrite implements Write {
             BufferedWriter bufferedWriter = new BufferedWriter(Files.newBufferedWriter(CrawlerController.FETCH_LATIMES_CSV_OP));
             CSVFormat format = CSVFormat.DEFAULT.withHeader(StatHeader.URL.value, StatHeader.STATUS_CODE.value);
             CSVPrinter csvPrinter = new CSVPrinter(bufferedWriter, format);
+            System.out.println(String.format("Attempting to write crawled metrics to file: %s", CrawlerController.FETCH_LATIMES_CSV_OP));
             for (FetchCrawlStat urlStatusCode : fetchCrawlStat) {
                 csvPrinter.printRecord(urlStatusCode.getUrl(), urlStatusCode.getStatusCode());
             }
+            System.out.println(String.format("Successfully completing writing fetch data to file %s", CrawlerController.FETCH_LATIMES_CSV_OP));
             csvPrinter.flush();
         } catch (IOException exception) {
             logger.error("Error while writing to file: " + exception.getMessage());

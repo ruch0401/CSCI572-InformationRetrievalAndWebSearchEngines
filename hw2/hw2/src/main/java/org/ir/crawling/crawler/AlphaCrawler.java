@@ -14,10 +14,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 public class AlphaCrawler extends WebCrawler {
     static final Props props = Props.getInstance();
+    private static AtomicInteger fetchedUrlCount = new AtomicInteger(0);
     private static List<FetchCrawlStat> fetchCrawlStats;
     private static List<VisitCrawlStat> visitCrawlStats;
     private static List<UrlCrawlStat> urlCrawlStats;
@@ -31,6 +33,10 @@ public class AlphaCrawler extends WebCrawler {
         AlphaCrawler.fetchCrawlStats = fetchCrawlStats;
         AlphaCrawler.visitCrawlStats = visitCrawlStats;
         AlphaCrawler.urlCrawlStats = urlCrawlStats;
+    }
+
+    public static int getFetchedUrlCount() {
+        return fetchedUrlCount.get();
     }
 
     public static List<FetchCrawlStat> getFetchStats() {
@@ -53,7 +59,7 @@ public class AlphaCrawler extends WebCrawler {
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
         String path = url.getPath().toLowerCase();
-        return href.startsWith(props.SEED_URL_HTTPS) || href.startsWith(props.SEED_URL_HTTP);
+        return href.startsWith(props.getSEED_URL_HTTPS()) || href.startsWith(props.getSEED_URL_HTTP());
     }
 
     /**
@@ -81,7 +87,8 @@ public class AlphaCrawler extends WebCrawler {
             logFetchData(page);
             logVisitData(page);
             logOutgoingUrlData(page);
-            System.out.println(String.format("Parsed URL... %d", page.getStatusCode()));
+            int count = fetchedUrlCount.incrementAndGet();
+            System.out.println(String.format("Parsed URL #%d with response status code (%d)", count, page.getStatusCode()));
         } catch (Exception e) {
             logger.error(MessageFormat.format("{0}\nCaused by: {1}", e.getMessage(), e.getCause()));
         }

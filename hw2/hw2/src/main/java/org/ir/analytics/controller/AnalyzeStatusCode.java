@@ -4,6 +4,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.ir.common.HttpCode;
 import org.ir.crawling.model.enums.StatHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -13,8 +15,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class AnalyzeStatusCode implements Analysis {
+
+    private static final Logger logger = LoggerFactory.getLogger(AnalyzeStatusCode.class);
     @Override
     public String analyze(Path filepath, Path outputPath) {
+        System.out.println(String.format("Starting analyzing outgoing status code data", filepath.getFileName()));
         try (Reader reader = Files.newBufferedReader(filepath);) {
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
@@ -33,7 +38,7 @@ public class AnalyzeStatusCode implements Analysis {
 
             return constructDynamicOutputString(statusCodeAnalysisMap);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error while analyzing the fetch file: " + e.getMessage());
         }
         return String.format("%s did not return any output string", this.getClass().getName());
     }

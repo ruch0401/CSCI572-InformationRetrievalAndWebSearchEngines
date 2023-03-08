@@ -6,6 +6,7 @@ import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
+import org.ir.analytics.controller.CollateAnalysis;
 import org.ir.cli.Props;
 import org.ir.crawling.crawler.AlphaCrawler;
 import org.ir.crawling.model.FetchCrawlStat;
@@ -17,39 +18,58 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CrawlerController {
-    
+    private static final Logger logger = LoggerFactory.getLogger(CrawlerController.class);
     static final Props props = Props.getInstance();
-    static final Path FETCH_LATIMES_CSV_OP = Path.of(props.OUTPUT_DIR, "fetch_latimes.csv");
-    static final Path VISIT_LATIMES_CSV_OP = Path.of(props.OUTPUT_DIR, "visit_latimes.csv");
-    static final Path URLS_LATIMES_CSV_OP = Path.of(props.OUTPUT_DIR, "urls_latimes.csv");
+    static final Path FETCH_LATIMES_CSV_OP = Path.of(props.getOUTPUT_DIR(), "fetch_latimes.csv");
+    static final Path VISIT_LATIMES_CSV_OP = Path.of(props.getOUTPUT_DIR(), "visit_latimes.csv");
+    static final Path URLS_LATIMES_CSV_OP = Path.of(props.getOUTPUT_DIR(), "urls_latimes.csv");
 
     static {
         try {
-            if (Files.notExists(props.ROOT_PATH)) {
-                Files.createDirectory(props.ROOT_PATH);
-            }
-
-            // ensuring that the output files do not exist previously. if they do, deleting and creating a new ones.
-            Files.deleteIfExists(FETCH_LATIMES_CSV_OP);
-            Files.deleteIfExists(VISIT_LATIMES_CSV_OP);
-            Files.deleteIfExists(URLS_LATIMES_CSV_OP);
-
-            Files.createFile(FETCH_LATIMES_CSV_OP);
-            Files.createFile(VISIT_LATIMES_CSV_OP);
-            Files.createFile(URLS_LATIMES_CSV_OP);
+            initBookKeepAndOutputFiles();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(CrawlerController.class);
+    private static void initBookKeepAndOutputFiles() throws IOException {
+
+        System.out.println("Initializing output files and directories");
+
+        if (Files.notExists(props.ROOT_PATH)) {
+            Files.createDirectory(props.ROOT_PATH);
+        }
+
+        // ensuring that the output files do not exist previously. if they do, deleting and creating a new ones.
+        Files.deleteIfExists(FETCH_LATIMES_CSV_OP);
+        Files.deleteIfExists(VISIT_LATIMES_CSV_OP);
+        Files.deleteIfExists(URLS_LATIMES_CSV_OP);
+
+        Files.createFile(FETCH_LATIMES_CSV_OP);
+        Files.createFile(VISIT_LATIMES_CSV_OP);
+        Files.createFile(URLS_LATIMES_CSV_OP);
+    }
 
     public static void main(String[] args) throws Exception {
 
+        if (parseCommandOrExit(args)) return;
+        CrawlConfig config = new CrawlConfig();
+        configureCrawler(config);
+        final var controller = instantiateCrawlerForThisCrawl(config);
+
+        System.out.println(MessageFormat.format("Setting seed as {0}", props.getSEED_URL_HTTPS()));
+        controller.addSeed(props.getSEED_URL_HTTPS());
+        instantiateAndStartCrawling(controller);
+        writeCrawlOutputsToFile();
+    }
+
+    private static boolean parseCommandOrExit(String[] args) {
+        System.out.println("Attempting to parse command line arguments");
         JCommander.newBuilder()
                 .addObject(props)
                 .build().
@@ -60,18 +80,17 @@ public class CrawlerController {
                     .addObject(props)
                     .build()
                     .usage();
-            return;
+            return true;
         }
 
-        CrawlConfig config = new CrawlConfig();
-        configureCrawler(config);
-        final var controller = instantiateCrawlerForThisCrawl(config);
-        controller.addSeed(props.SEED_URL_HTTPS);
-        instantiateAndStartCrawling(controller);
-        writeCrawlOutputsToFile();
+        System.out.println("Successfully parsed command line arguments as follows:");
+        System.out.println(props.toString());
+        return false;
+
     }
 
     private static void configureCrawler(CrawlConfig config) {
+        System.out.println(String.format("Configuring crawler to parse %s", props.getSEED_URL_HTTPS()));
         config.setCrawlStorageFolder(props.ROOT);
         config.setMaxDepthOfCrawling(props.MAX_DEPTH);
         config.setMaxPagesToFetch(props.MAX_PAGE_COUNT);
@@ -80,6 +99,7 @@ public class CrawlerController {
     }
 
     private static CrawlController instantiateCrawlerForThisCrawl(CrawlConfig config) throws Exception {
+        System.out.println("Instantiating crawler for this crawl");
         // Instantiate the controller for this crawl.
         final var pageFetcher = new PageFetcher(config);
         final var robotstxtConfig = new RobotstxtConfig();
@@ -88,6 +108,7 @@ public class CrawlerController {
     }
 
     private static void instantiateAndStartCrawling(CrawlController controller) {
+        System.out.println("Beginning the crawl. This is a blocking operation");
         // instantiate and start crawling
         List<FetchCrawlStat> fetchCrawlStats = new ArrayList<>();
         List<VisitCrawlStat> visitCrawlStats = new ArrayList<>();
@@ -97,6 +118,7 @@ public class CrawlerController {
         // Start the crawl. This is a blocking operation, meaning that your code
         // will reach the line after this only when crawling is finished.
         controller.start(factory, props.NUMBER_OF_CRAWLERS);
+        System.out.println(String.format("\nCompleted crawling %d pages", AlphaCrawler.getFetchedUrlCount()));
     }
 
     private static void writeCrawlOutputsToFile() throws IOException {
@@ -108,6 +130,9 @@ public class CrawlerController {
 
         UrlWrite urlWrite = new UrlWrite();
         urlWrite.write(AlphaCrawler.getUrlStats());
+
+        System.out.println("\nCompleted writing crawl outputs to files. Now generating analytics");
+        CollateAnalysis.main(new String[]{});
     }
 
 }
