@@ -2,6 +2,12 @@
 
 ## Introduction
 
+## Try it yourself
+
+[Project Jar File](target/hw2-1.0.0.jar)
+
+
+
 
 ## Maven Dependency Graph
 
