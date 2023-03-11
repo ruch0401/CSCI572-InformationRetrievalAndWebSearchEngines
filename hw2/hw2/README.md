@@ -6,7 +6,59 @@
 
 [Project Jar File](target/hw2-1.0.0.jar)
 
+## Command line options available
 
+```text
+Usage: <main class> [options]
+  Options:
+    --help, -h
+      Displays all configurable options available.
+      Default: true
+    --max-depth
+      The maximum depth of crawling. This is useful when you want to limit the 
+      crawl to a certain depth.
+      Default: 16
+    --max-page-count
+      The maximum number of pages to be crawled. This is useful when you want 
+      to limit the crawl to a certain number of pages.
+      Default: 20
+    --name
+      Name using which the report will be created
+      Default: Ruchit Bhardwaj
+    --number-of-crawlers
+      The number of crawlers to be used. This controls the internal thread 
+      count 
+      Default: 30
+    --output-dir
+      This is the output directory where the crawl outputs are stored.
+      Default: output
+  * --output-fetch
+      This is the output filename where the crawl's fetch outputs are stored.
+      Default: fetch_latimes.csv
+  * --output-report
+      This is the output filename with which the analytics report will be 
+      generated. 
+      Default: CrawlReport_latimes.txt
+  * --output-url
+      This is the output filename where the crawl's url outputs are stored.
+      Default: urls_latimes.csv
+  * --output-visit
+      This is the output filename where the crawl's visit outputs are stored.
+      Default: visit_latimes.csv
+    --politeness-delay-in-millis
+      Controls the delay with which crawler4j crawls subsequent urls.
+      Default: 1
+    --root
+      This is the crawled storage folder. This is useful when you want to 
+      resume a crawl from a previous crawl.
+      Default: ../data/crawl/root
+  * --seed-url-https
+      The seed url to start crawling from (https)
+      Default: https://www.latimes.com/
+    --usc-id
+      USC ID of the name using which the report will be created
+      Default: 1235678910
+```
 
 
 ## Maven Dependency Graph
