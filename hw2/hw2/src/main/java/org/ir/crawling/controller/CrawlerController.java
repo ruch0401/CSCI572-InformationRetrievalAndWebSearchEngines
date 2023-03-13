@@ -42,13 +42,17 @@ public class CrawlerController {
         System.out.println("Initializing output files and directories");
 
         if (Files.notExists(props.ROOT_PATH)) {
-            Files.createDirectory(props.ROOT_PATH);
+            Files.createDirectories(props.ROOT_PATH);
         }
 
         // ensuring that the output files do not exist previously. if they do, deleting and creating a new ones.
         Files.deleteIfExists(FETCH_LATIMES_CSV_OP);
         Files.deleteIfExists(VISIT_LATIMES_CSV_OP);
         Files.deleteIfExists(URLS_LATIMES_CSV_OP);
+
+        Files.createDirectories(FETCH_LATIMES_CSV_OP.getParent());
+        Files.createDirectories(VISIT_LATIMES_CSV_OP.getParent());
+        Files.createDirectories(URLS_LATIMES_CSV_OP.getParent());
 
         Files.createFile(FETCH_LATIMES_CSV_OP);
         Files.createFile(VISIT_LATIMES_CSV_OP);

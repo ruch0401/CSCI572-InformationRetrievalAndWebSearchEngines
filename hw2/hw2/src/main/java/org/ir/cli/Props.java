@@ -29,11 +29,11 @@ public class Props {
     @Getter
     private boolean help = false;
 
-    @Parameter(names = {"--name"}, description = "Name using which the report will be created")
+    @Parameter(names = {"--name"}, description = "Name using which the report will be created", required = true)
     @Getter
     private String name = "Ruchit Bhardwaj";
 
-    @Parameter(names = {"--usc-id"}, description = "USC ID of the name using which the report will be created")
+    @Parameter(names = {"--usc-id"}, description = "USC ID of the name using which the report will be created", required = true)
     @Getter
     private String uscId = "1235678910";
 
@@ -50,9 +50,9 @@ public class Props {
 
     @Parameter(names = {"--root"}, description = "This is the crawled storage folder. This is useful when you want to resume a crawl from a previous crawl.")
     @Getter
-    public String ROOT = "../data/crawl/root";
+    public String ROOT = "/tmp/data/crawl/root";
 
-    @Parameter(names = {"--output-dir"}, description = "This is the output directory where the crawl outputs are stored.")
+    @Parameter(names = {"--output-dir"}, description = "This is the output directory where the crawl outputs are stored.", required = true)
     @Getter
     private String OUTPUT_DIR = "output";
 

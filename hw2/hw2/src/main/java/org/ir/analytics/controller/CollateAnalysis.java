@@ -41,9 +41,10 @@ public class CollateAnalysis {
     private static void performInitialCleanUpAndCreateNewReportFile() {
         try {
             Files.deleteIfExists(REPORT);
+            Files.createDirectories(REPORT.getParent());
             Files.createFile(REPORT);
         } catch (Exception e) {
-            e.printStackTrace();;
+            e.printStackTrace();
         }
     }
 
