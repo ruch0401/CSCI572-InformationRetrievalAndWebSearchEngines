@@ -31,7 +31,7 @@ Usage: <main class> [options]
   Options:
     --help, -h
       Displays all configurable options available.
-      Default: true
+      Default: false
     --max-depth
       The maximum depth of crawling. This is useful when you want to limit the 
       crawl to a certain depth.
@@ -52,30 +52,30 @@ Usage: <main class> [options]
       Default: output
   * --output-fetch
       This is the output filename where the crawl's fetch outputs are stored.
-      Default: fetch_latimes.csv
+      Default: fetch.csv
   * --output-report
       This is the output filename with which the analytics report will be 
       generated. 
-      Default: CrawlReport_latimes.txt
+      Default: CrawlReport.txt
   * --output-url
       This is the output filename where the crawl's url outputs are stored.
-      Default: urls_latimes.csv
+      Default: urls.csv
   * --output-visit
       This is the output filename where the crawl's visit outputs are stored.
-      Default: visit_latimes.csv
+      Default: visit.csv
     --politeness-delay-in-millis
       Controls the delay with which crawler4j crawls subsequent urls.
       Default: 1
     --root
       This is the crawled storage folder. This is useful when you want to 
       resume a crawl from a previous crawl.
-      Default: data
+      Default: /tmp/data/crawl/root
   * --seed-url-https
       The seed url to start crawling from (https)
       Default: https://www.latimes.com/
   * --usc-id
       USC ID of the name using which the report will be created
-      Default: 1111417799
+      Default: 1235678910
 ```
 - Run the following command to perform the crawl and generate the report
 ```bash
@@ -84,7 +84,7 @@ java -cp hw2-1.0.0.jar org.ir.crawling.controller.CrawlerController --seed-url-h
 
 - Example command to run the project
 ```bash
-java -cp hw2-1.0.0.jar --add-exports java.management/sun.management=ALL-UNNAMED org.ir.crawling.controller.CrawlerController --seed-url-https https://www.latimes.com/ --root data --output-fetch fetch_latimes.csv --output-visit visit_latimes.csv --output-url urls_latimes.csv --output-report CrawlReport_latimes.txt --usc-id 1111417799 --name "Ruchit Bhardwaj" --output-dir output
+java -cp hw2-1.0.0.jar org.ir.crawling.controller.CrawlerController --seed-url-https https://www.latimes.com/ --output-fetch fetch_latimes.csv --output-visit visit_latimes.csv --output-url urls_latimes.csv --output-report CrawlReport_latimes.txt --usc-id 1111417799 --name "Ruchit Bhardwaj" --output-dir output
 ```
 
 - Sample output
@@ -98,7 +98,7 @@ NAME: 'Ruchit Bhardwaj'
 USCID: '1111417799'
 SEED_URL_HTTPS: 'https://www.latimes.com/'
 SEED_URL_HTTP: 'http://www.latimes.com/'
-ROOT: 'data'
+ROOT: '/tmp/data/crawl/root'
 OUTPUT_DIR: 'output'
 OUTPUT_FETCH: 'fetch_latimes.csv'
 OUTPUT_VISIT: 'visit_latimes.csv'
@@ -154,6 +154,10 @@ Starting analyzing file size data
 Starting analyzing outgoing url data
 Starting analyzing outgoing status code data
 Completed analysis. Writing results to output file [CrawlReport_latimes.txt]
+```
+- In case the above command fails, try running the following command
+```bash
+java -cp hw2-1.0.0.jar --add-exports java.management/sun.management=ALL-UNNAMED org.ir.crawling.controller.CrawlerController --seed-url-https https://www.latimes.com/ --output-fetch fetch_latimes.csv --output-visit visit_latimes.csv --output-url urls_latimes.csv --output-report CrawlReport_latimes.txt --usc-id 1111417799 --name "Ruchit Bhardwaj" --output-dir output
 ```
 
 ## Developer's Corner
