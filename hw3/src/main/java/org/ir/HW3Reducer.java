@@ -15,7 +15,7 @@ public class HW3Reducer extends Reducer<Text, Text, Text, Text> {
         Map<String, Integer> hashMap = new HashMap<>();
         for (Text value : values) {
             String[] item = value.toString().split(":");
-            hashMap.put(item[0], hashMap.getOrDefault(item[0], 0) + 1);
+            hashMap.put(item[0], hashMap.getOrDefault(item[0], Integer.parseInt(item[1].trim())) + 1);
         }
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
