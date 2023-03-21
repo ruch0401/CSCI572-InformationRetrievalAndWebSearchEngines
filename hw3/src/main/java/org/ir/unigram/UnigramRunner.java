@@ -1,8 +1,7 @@
-package org.ir;
+package org.ir.unigram;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -10,15 +9,15 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
 
-public class HW3Runner {
+public class UnigramRunner {
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "IR-HW3");
+        Job job = Job.getInstance(conf, "IR-HW3 Unigram");
 
-        job.setJarByClass(HW3Runner.class);
-        job.setMapperClass(HW3Mapper.class);
-        job.setCombinerClass(HW3Reducer.class);
-        job.setReducerClass(HW3Reducer.class);
+        job.setJarByClass(UnigramRunner.class);
+        job.setMapperClass(UnigramMapper.class);
+        job.setCombinerClass(UnigramReducer.class);
+        job.setReducerClass(UnigramReducer.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);

@@ -1,3 +1,6 @@
-/home/ruchit/Documents/personal/projects/CSCI572-InformationRetrievalAndWebSearchEngines/hw3/src/main/java/org/ir/HW3Runner.java
-/home/ruchit/Documents/personal/projects/CSCI572-InformationRetrievalAndWebSearchEngines/hw3/src/main/java/org/ir/HW3Reducer.java
-/home/ruchit/Documents/personal/projects/CSCI572-InformationRetrievalAndWebSearchEngines/hw3/src/main/java/org/ir/HW3Mapper.java
+/home/ruchit/Documents/personal/projects/CSCI572-InformationRetrievalAndWebSearchEngines/hw3/src/main/java/org/ir/bigram/BigramRunner.java
+/home/ruchit/Documents/personal/projects/CSCI572-InformationRetrievalAndWebSearchEngines/hw3/src/main/java/org/ir/unigram/UnigramRunner.java
+/home/ruchit/Documents/personal/projects/CSCI572-InformationRetrievalAndWebSearchEngines/hw3/src/main/java/org/ir/unigram/UnigramMapper.java
+/home/ruchit/Documents/personal/projects/CSCI572-InformationRetrievalAndWebSearchEngines/hw3/src/main/java/org/ir/unigram/UnigramReducer.java
+/home/ruchit/Documents/personal/projects/CSCI572-InformationRetrievalAndWebSearchEngines/hw3/src/main/java/org/ir/bigram/BigramMapper.java
+/home/ruchit/Documents/personal/projects/CSCI572-InformationRetrievalAndWebSearchEngines/hw3/src/main/java/org/ir/bigram/BigramReducer.java

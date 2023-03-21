@@ -1,4 +1,4 @@
-package org.ir;
+package org.ir.unigram;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HW3Reducer extends Reducer<Text, Text, Text, Text> {
+public class UnigramReducer extends Reducer<Text, Text, Text, Text> {
 
     private final Text result = new Text();
 

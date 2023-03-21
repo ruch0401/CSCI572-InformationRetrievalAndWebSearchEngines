@@ -1,3 +1,6 @@
-org/ir/HW3Reducer.class
-org/ir/HW3Runner.class
-org/ir/HW3Mapper.class
+org/ir/unigram/UnigramMapper.class
+org/ir/bigram/BigramMapper.class
+org/ir/unigram/UnigramRunner.class
+org/ir/unigram/UnigramReducer.class
+org/ir/bigram/BigramReducer.class
+org/ir/bigram/BigramRunner.class

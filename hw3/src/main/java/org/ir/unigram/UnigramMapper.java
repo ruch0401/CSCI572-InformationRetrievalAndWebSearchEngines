@@ -1,4 +1,4 @@
-package org.ir;
+package org.ir.unigram;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -6,7 +6,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-public class HW3Mapper extends Mapper<Object, Text, Text, Text> {
+public class UnigramMapper extends Mapper<Object, Text, Text, Text> {
     private final Text word = new Text();
     private final Text docInfo = new Text();
 
