@@ -1,6 +1,0 @@
-org/ir/unigram/UnigramMapper.class
-org/ir/bigram/BigramMapper.class
-org/ir/unigram/UnigramRunner.class
-org/ir/unigram/UnigramReducer.class
-org/ir/bigram/BigramReducer.class
-org/ir/bigram/BigramRunner.class
