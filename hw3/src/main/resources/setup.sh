@@ -25,17 +25,17 @@ echo "==========================================================================
 hadoop fs -put output /
 
 # homework requirement start
-# execute the MapReduce job to generate unigram inverted index on original full data
+# execute the MapReduce job to generate unigram inverted index on small full data
 echo "=============================================================================================="
-echo "[1/8] Executing the MapReduce job to generate unigram inverted index on original full data"
+echo "[1/8] Executing the MapReduce job to generate unigram inverted index on small full data"
 echo "=============================================================================================="
-hadoop jar src/main/resources/hw3-1.0-SNAPSHOT.jar org.ir.runner.UnigramRunner /data/original/fulldata/ /output/unigram_index.txt
+hadoop jar src/main/resources/hw3-1.0-SNAPSHOT.jar org.ir.runner.UnigramRunner /data/small/fulldata/ /output/unigram_index.txt
 
-# execute the MapReduce job to generate bigram inverted index on original dev data
+# execute the MapReduce job to generate bigram inverted index on small dev data
 echo "=============================================================================================="
-echo "[2/8] Executing the MapReduce job to generate bigram inverted index on original dev data"
+echo "[2/8] Executing the MapReduce job to generate bigram inverted index on small dev data"
 echo "=============================================================================================="
-hadoop jar src/main/resources/hw3-1.0-SNAPSHOT.jar org.ir.runner.BigramRunner /data/original/devdata/ /output/selected_bigram_index.txt
+hadoop jar src/main/resources/hw3-1.0-SNAPSHOT.jar org.ir.runner.BigramRunner /data/small/devdata/ /output/selected_bigram_index.txt
 # homework requirement end
 
 # additional executions start
@@ -57,17 +57,17 @@ echo "[5/8] Executing the MapReduce job to generate unigram inverted index on sm
 echo "=============================================================================================="
 hadoop jar src/main/resources/hw3-1.0-SNAPSHOT.jar org.ir.runner.UnigramRunner /data/small/devdata/ /output/unigram_index_small_devdata.txt
 
-# execute the MapReduce job to generate unigram inverted index on small full data
+# execute the MapReduce job to generate unigram inverted index on original full data
 echo "=============================================================================================="
-echo "[6/8] Executing the MapReduce job to generate unigram inverted index on small full data"
+echo "[6/8] Executing the MapReduce job to generate unigram inverted index on original full data"
 echo "=============================================================================================="
-hadoop jar src/main/resources/hw3-1.0-SNAPSHOT.jar org.ir.runner.UnigramRunner /data/small/fulldata/ /output/unigram_index_small_fulldata.txt
+hadoop jar src/main/resources/hw3-1.0-SNAPSHOT.jar org.ir.runner.UnigramRunner /data/original/fulldata/ /output/unigram_index_original_fulldata.txt
 
-# execute the MapReduce job to generate bigram inverted index on small dev data
+# execute the MapReduce job to generate bigram inverted index on original dev data
 echo "=============================================================================================="
-echo "[7/8] Executing the MapReduce job to generate bigram inverted index on small dev data"
+echo "[7/8] Executing the MapReduce job to generate bigram inverted index on original dev data"
 echo "=============================================================================================="
-hadoop jar src/main/resources/hw3-1.0-SNAPSHOT.jar org.ir.runner.BigramRunner /data/small/devdata/ /output/selected_bigram_index_small_devdata.txt
+hadoop jar src/main/resources/hw3-1.0-SNAPSHOT.jar org.ir.runner.BigramRunner /data/original/devdata/ /output/selected_bigram_index_original_devdata.txt
 
 # execute the MapReduce job to generate bigram inverted index on small full data
 echo "=============================================================================================="
