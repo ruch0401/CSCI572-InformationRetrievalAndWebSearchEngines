@@ -6,30 +6,44 @@ In this homework, you'll write code that indexes words from multiple text files,
 
 ## Project details
 
+![Problem Statement 1](assets/images/ps-1.png)
+![Problem Statement 2](assets/images/ps-2.png)
+
 ## Try it yourself
 
 ### Prerequisites
+
 - Hadoop 3.3.1 should be installed on your machine. (Installation instructions can be found [here](hadoop-setup.md)
 - Java 8 should be installed on your machine.
 - Maven should be installed on your machine.
 
 ### Steps to run the project
+
 - Once you have the prerequisites installed, clone this repository to your machine.
 - Clone the repository to your machine. Navigate to the root directory of the project (hw3).
 - Open the project in your favorite IDE.
 - You will find the jar file present [here](src/main/resources/hw3-1.0-SNAPSHOT.jar).
-- You will find the `setup.sh` file present [here](src/main/resources/setup.sh). This file contains the commands to create the input and output directories in HDFS.
+- You will find the `setup.sh` file present [here](src/main/resources/setup.sh). This file contains the commands to
+  create the input and output directories in HDFS.
 - Execute this shell script on your machine using the following command:
+
 ```bash
 sh setup.sh
 ```
 
-> Please keep in mind of the location where you are trying to execute the script. The commands might change depending on the location.
+> Please keep in mind of the location where you are trying to execute the script. The commands might change depending on
+> the location.
 
 > You can modify the shell script to accomodate source directories at different locations.
 
 - Sample data files can be found [here](data-small)
+- Sample output file (local execution output) can be found [here](assets/output.txt)
 
+### Output Screenshots (Hadoop file system)
+
+![Outputs](assets/images/1.png)
+
+Some actual output files are [unigram_index.txt](assets/output/unigram_index.txt) and [selected_bigram_index.txt](assets/output/selected_bigram_index.txt)
 
 ## Developer's Corner
 
