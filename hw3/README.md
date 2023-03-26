@@ -28,7 +28,7 @@ sh setup.sh
 
 > You can modify the shell script to accomodate source directories at different locations.
 
-- Sample data files can be found [here](data)
+- Sample data files can be found [here](data-small)
 
 
 ## Developer's Corner
