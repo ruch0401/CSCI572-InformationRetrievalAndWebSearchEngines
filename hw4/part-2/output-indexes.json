@@ -1,0 +1,52 @@
+[
+  [
+    {
+      "ref": "SteakBurrito",
+      "score": 1.482,
+      "matchData": {
+        "metadata": {
+          "945": {
+            "calories": {}
+          }
+        }
+      }
+    },
+    {
+      "ref": "SofritasBurrito",
+      "score": 1.482,
+      "matchData": {
+        "metadata": {
+          "945": {
+            "calories": {}
+          }
+        }
+      }
+    }
+  ],
+  [
+    {
+      "ref": "BarbacoaBurrito",
+      "score": 1.992,
+      "matchData": {
+        "metadata": {
+          "965": {
+            "calories": {}
+          }
+        }
+      }
+    }
+  ],
+  [
+    {
+      "ref": "ChickenBurrito",
+      "score": 1.992,
+      "matchData": {
+        "metadata": {
+          "975": {
+            "calories": {}
+          }
+        }
+      }
+    }
+  ]
+]

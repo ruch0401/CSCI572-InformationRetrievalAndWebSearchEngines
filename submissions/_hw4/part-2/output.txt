@@ -1,0 +1,7 @@
+
+There are 4 food items with calories between 700 and 1000 are: [
+    "SteakBurrito",
+    "SofritasBurrito",
+    "BarbacoaBurrito",
+    "ChickenBurrito"
+]

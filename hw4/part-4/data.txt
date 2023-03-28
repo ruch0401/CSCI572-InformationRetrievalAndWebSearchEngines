@@ -1,0 +1,45 @@
+{"foodItem":"Chicken Burrito", "calories":975}
+{"foodItem":"Steak Burrito", "calories":945}
+{"foodItem":"Carnitas Burrito", "calories":1005}
+{"foodItem":"Barbacoa Burrito", "calories":965}
+{"foodItem":"Chorizo Burrito", "calories":1095}
+{"foodItem":"Sofritas Burrito", "calories":945}
+{"foodItem":"Chicken Burrito Bowl", "calories":630}
+{"foodItem":"Chicken Bowl", "calories":630}
+{"foodItem":"Steak Burrito Bowl", "calories":600}
+{"foodItem":"Steak Bowl", "calories":600}
+{"foodItem":"Carnitas Burrito Bowl", "calories":660}
+{"foodItem":"Carnitas Bowl", "calories":660}
+{"foodItem":"Barbacoa Burrito Bowl", "calories":620}
+{"foodItem":"Barbacoa Bowl", "calories":620}
+{"foodItem":"Chorizo Burrito Bowl", "calories":750}
+{"foodItem":"Chorizo Bowl", "calories":750}
+{"foodItem":"Sofritas Burrito Bowl", "calories":600}
+{"foodItem":"Sofritas Bowl", "calories":600}
+{"foodItem":"Chicken Corn Tortilla Taco", "calories":650}
+{"foodItem":"Chicken Flour Tortilla Taco", "calories":700}
+{"foodItem":"Steak Corn Tortilla Taco", "calories":620}
+{"foodItem":"Steak Flour Tortilla Taco", "calories":670}
+{"foodItem":"Carnitas Corn Tortilla Taco", "calories":680}
+{"foodItem":"Carnitas Flour Tortilla Taco", "calories":730}
+{"foodItem":"Barbacoa Corn Tortilla Taco", "calories":640}
+{"foodItem":"Barbacoa Flour Tortilla Taco", "calories":690}
+{"foodItem":"Chorizo Corn Tortilla Taco", "calories":770}
+{"foodItem":"Chorizo Flour Tortilla Taco", "calories":820}
+{"foodItem":"Sofritas Corn Tortilla Taco", "calories":620}
+{"foodItem":"Sofritas Flour Tortilla Taco", "calories":670}
+{"foodItem":"Chicken Salad", "calories":345}
+{"foodItem":"Steak Salad", "calories":315}
+{"foodItem":"Carnitas Salad", "calories":375}
+{"foodItem":"Barbacoa Salad", "calories":335}
+{"foodItem":"Chorizo Salad", "calories":465}
+{"foodItem":"Chicken Quesadilla", "calories":610}
+{"foodItem":"Steak Quesadilla", "calories":550}
+{"foodItem":"Carnitas Quesadilla", "calories":640}
+{"foodItem":"Cheese Quesadilla", "calories":430}
+{"foodItem":"Kids Chicken Taco", "calories":205}
+{"foodItem":"Kids Steak Taco", "calories":200}
+{"foodItem":"Chips", "calories":540}
+{"foodItem":"Chips and Salsa", "calories":570}
+{"foodItem":"Chips and Guacamole", "calories":770}
+{"foodItem":"Chips and Queso", "calories":770}
