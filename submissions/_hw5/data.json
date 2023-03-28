@@ -1,0 +1,107 @@
+[
+  {
+    "author": "Haruki Murakami",
+    "book": "Kafka on the Shore",
+    "summary": "A runaway boy named Kafka Tamura embarks on a journey of self-discovery, while an elderly man named Nakata searches for a lost cat and has strange supernatural experiences."
+  },
+  {
+    "author": "Chimamanda Ngozi Adichie",
+    "book": "Half of a Yellow Sun",
+    "summary": "Set during the Nigerian Civil War, this novel tells the story of several characters whose lives are changed by the conflict and its aftermath."
+  },
+  {
+    "author": "F. Scott Fitzgerald",
+    "book": "The Great Gatsby",
+    "summary": "Jay Gatsby, a wealthy man living in 1920s New York, tries to win back the love of his life, Daisy Buchanan, who is now married to another man."
+  },
+  {
+    "author": "Gabriel Garcia Marquez",
+    "book": "One Hundred Years of Solitude",
+    "summary": "The story of the Buendia family over several generations in the fictional town of Macondo, highlighting themes of love, death, and the cyclical nature of time."
+  },
+  {
+    "author": "Toni Morrison",
+    "book": "Beloved",
+    "summary": "Set after the American Civil War, this novel tells the story of Sethe, a former slave who is haunted by the ghost of her dead daughter."
+  },
+  {
+    "author": "J.K. Rowling",
+    "book": "Harry Potter and the Sorcerer's Stone",
+    "summary": "Harry Potter discovers he is a wizard and attends Hogwarts School of Witchcraft and Wizardry."
+  },
+  {
+    "author": "George Orwell",
+    "book": "1984",
+    "summary": "A dystopian novel set in a totalitarian society, where the government controls every aspect of citizens' lives."
+  },
+  {
+    "author": "Harper Lee",
+    "book": "To Kill a Mockingbird",
+    "summary": "A coming-of-age story set in the segregated Deep South, focusing on racism and injustice."
+  },
+  {
+    "author": "Gabriel Garcia Marquez",
+    "book": "One Hundred Years of Solitude",
+    "summary": "A magical realist novel following seven generations of the Buendia family in the fictional town of Macondo."
+  },
+  {
+    "author": "Jane Austen",
+    "book": "Pride and Prejudice",
+    "summary": "A witty and romantic novel set in early 19th-century England, focusing on the relationship between Elizabeth Bennet and Mr. Darcy."
+  },
+  {
+    "author": "Ernest Hemingway",
+    "book": "The Old Man and the Sea",
+    "summary": "An allegorical novel about an old fisherman's struggle to catch a giant marlin in the Gulf Stream."
+  },
+  {
+    "author": "Toni Morrison",
+    "book": "Beloved",
+    "summary": "A novel set in post-Civil War Ohio, focusing on the experiences of a former slave and her family."
+  },
+  {
+    "author": "Markus Zusak",
+    "book": "The Book Thief",
+    "summary": "A novel set in Nazi Germany, narrated by Death and focusing on a young girl's love of books."
+  },
+  {
+    "author": "Kazuo Ishiguro",
+    "book": "Never Let Me Go",
+    "summary": "A dystopian novel set in an alternate version of England, where human clones are raised for their organs."
+  },
+  {
+    "author": "Margaret Atwood",
+    "book": "The Handmaid's Tale",
+    "summary": "A dystopian novel set in the near future, where women's rights have been severely restricted and a group of fertile women are forced to bear children for the ruling class."
+  },
+  {
+    "author": "John Steinbeck",
+    "book": "Of Mice and Men",
+    "summary": "A novella set in Depression-era California, focusing on the unlikely friendship between two migrant workers."
+  },
+  {
+    "author": "F. Scott Fitzgerald",
+    "book": "The Great Gatsby",
+    "summary": "A novel set in the Roaring Twenties, focusing on the wealthy Jay Gatsby and his obsession with the beautiful Daisy Buchanan."
+  },
+  {
+    "author": "Ray Bradbury",
+    "book": "Fahrenheit 451",
+    "summary": "A dystopian novel set in a future American society, where books are banned and 'firemen' burn any that are found."
+  },
+  {
+    "author": "Virginia Woolf",
+    "book": "Mrs. Dalloway",
+    "summary": "A stream-of-consciousness novel set in a single day in the life of Clarissa Dalloway, an upper-class woman in post-World War I London."
+  },
+  {
+    "author": "Chimamanda Ngozi Adichie",
+    "book": "Americanah",
+    "summary": "Americanah follows the story of a young Nigerian woman named Ifemelu as she navigates race, love, and identity as an immigrant in America. The novel explores themes of race relations, cultural differences, and the immigrant experience, and has been praised for its insightful commentary on these issues."
+  },
+  {
+    "author": "Tara Westover",
+    "book": "Educated",
+    "summary": "Educated is a memoir about the author's unconventional upbringing in a strict and abusive Mormon household in rural Idaho. Despite not having a formal education until her late teens, Westover eventually goes on to earn a PhD from Cambridge University. The book explores themes of family, education, and self-discovery, and has been praised for its raw and compelling storytelling."
+  }
+]
